@@ -36,6 +36,7 @@
                 android:drawableTint="@color/colorAccent"
                 android:drawablePadding="6dp"
                 android:singleLine="true"
+                android:inputType="textEmailAddress"
                 android:hint="Email" />
         </android.support.design.widget.TextInputLayout>
 
@@ -51,11 +52,13 @@
                 android:drawableTint="@color/colorAccent"
                 android:drawablePadding="6dp"
                 android:singleLine="true"
+                android:inputType="textPassword"
                 android:hint="Password" />
         </android.support.design.widget.TextInputLayout>
 
 
         <Button
+            android:id="@+id/btnLogin"
             style="@style/Widget.AppCompat.Button.Colored"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -166,6 +169,7 @@
 
 
         <Button
+            android:id="@+id/btnRegister"
             style="@style/Widget.AppCompat.Button.Colored"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -186,6 +190,7 @@
                 android:layout_height="wrap_content"
                 android:text="Already Registered"
                 android:textStyle="italic"
+                android:textSize="12sp"
                 android:textColor="@color/colorAccent"/>
 
         </LinearLayout>
