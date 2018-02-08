@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -24,13 +25,21 @@ import com.daimajia.androidanimations.library.YoYo;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
+import saim.com.now.Model.ModelMainUser;
 import saim.com.now.Utilities.ApiURL;
 import saim.com.now.Utilities.MySingleton;
+import saim.com.now.Utilities.SharedPrefDatabase;
 
 public class Login extends AppCompatActivity {
+
+    public static ArrayList<ModelMainUser> modelMainUsersArrayList = new ArrayList<>();
+    public Set<String> userSet = new HashSet<String>();
 
     ProgressDialog progressDialog;
 
@@ -43,12 +52,17 @@ public class Login extends AppCompatActivity {
     TextInputEditText inputName, inputEmail, inputMobile, inputPassword;
     Button btnRegister;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
         init();
+
+        if (CheckUserInfo()){
+            UserLogin(new SharedPrefDatabase(getApplicationContext()).RetriveUserEmail(), new SharedPrefDatabase(getApplicationContext()).RetriveUserPass());
+        }
     }
 
     private void init() {
@@ -216,6 +230,7 @@ public class Login extends AppCompatActivity {
 
     public void UserLogin(final String user_email, final String user_pass){
         progressDialog.show();
+        modelMainUsersArrayList.clear();
         StringRequest stringRequest = new StringRequest(Request.Method.POST, ApiURL.Login,
                 new Response.Listener<String>() {
                     @Override
@@ -226,6 +241,22 @@ public class Login extends AppCompatActivity {
                             JSONObject jsonObject = jsonArray.getJSONObject(0);
                             String code = jsonObject.getString("code");
                             if (code.equals("success")){
+
+                                JSONArray jsonArrayUser = jsonObject.getJSONArray("user");
+                                JSONObject jsonObjectUser = jsonArrayUser.getJSONObject(0);
+
+                                String user_id = jsonObjectUser.getString("user_id");
+                                String user_name = jsonObjectUser.getString("user_name");
+                                String user_email = jsonObjectUser.getString("user_email");
+                                String user_mobile = jsonObjectUser.getString("user_mobile");
+                                String user_pass = jsonObjectUser.getString("user_pass");
+                                String user_image = jsonObjectUser.getString("user_image");
+
+                                ModelMainUser modelMainUsers = new ModelMainUser(user_id, user_name, user_email,user_mobile, user_pass, user_image);
+                                modelMainUsersArrayList.add(modelMainUsers);
+
+                                StoreUserData(user_id, user_name, user_email, user_mobile, user_pass, user_image);
+
                                 startActivity(new Intent(getApplicationContext(), MainActivity.class));
                                 finish();
                             }else {
@@ -253,5 +284,35 @@ public class Login extends AppCompatActivity {
         };
         stringRequest.setShouldCache(false);
         MySingleton.getInstance(getApplicationContext()).addToRequestQueue(stringRequest);
+    }
+
+
+    public void StoreUserData(String id, String name, String email, String mobile, String pass, String image){
+
+        new SharedPrefDatabase(getApplicationContext()).StoreUserID(id);
+        new SharedPrefDatabase(getApplicationContext()).StoreUserName(name);
+        new SharedPrefDatabase(getApplicationContext()).StoreUserEmail(email);
+        new SharedPrefDatabase(getApplicationContext()).StoreUserMobile(mobile);
+        new SharedPrefDatabase(getApplicationContext()).StoreUserPass(pass);
+        new SharedPrefDatabase(getApplicationContext()).StoreUserImage(image);
+
+    }
+
+    public boolean CheckUserInfo(){
+        String id, name, email, mobile, pass, image;
+        id = new SharedPrefDatabase(getApplicationContext()).RetriveUserID();
+        name = new SharedPrefDatabase(getApplicationContext()).RetriveUserName();
+        email = new SharedPrefDatabase(getApplicationContext()).RetriveUserEmail();
+        mobile = new SharedPrefDatabase(getApplicationContext()).RetriveUserMobile();
+        pass = new SharedPrefDatabase(getApplicationContext()).RetriveUserPass();
+        image = new SharedPrefDatabase(getApplicationContext()).RetriveUserImage();
+
+        Log.d("SAIM CHOWA LOG", id + " " + name + " " + email + " " + mobile + " " + pass + " " + image);
+
+        if (email==null || pass==null || email.isEmpty() || pass.isEmpty()){
+            return false;
+        } else {
+            return true;
+        }
     }
 }

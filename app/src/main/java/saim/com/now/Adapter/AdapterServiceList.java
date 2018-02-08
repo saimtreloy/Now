@@ -1,12 +1,14 @@
 package saim.com.now.Adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
@@ -47,9 +49,10 @@ public class AdapterServiceList extends RecyclerView.Adapter<AdapterServiceList.
 
         Picasso.with(holder.listImageView.getContext())
                 .load(adapterList.get(position).getService_icon())
-                .placeholder(R.drawable.ic_person)
-                .error(R.drawable.ic_person)
+                .placeholder(R.drawable.ic_placeholder_icon)
+                .error(R.drawable.ic_placeholder_icon)
                 .into(holder.listImageView);
+        holder.listImageView.setColorFilter(Color.parseColor(adapterList.get(position).getService_color()));
         holder.listName.setText(adapterList.get(position).getService_name());
 
     }
@@ -75,7 +78,7 @@ public class AdapterServiceList extends RecyclerView.Adapter<AdapterServiceList.
 
         @Override
         public void onClick(View v) {
-
+            Toast.makeText(v.getContext(), adapterList.get(getAdapterPosition()).getService_name() + " service is under maintanance at this time.", Toast.LENGTH_SHORT).show();
         }
     }
 }

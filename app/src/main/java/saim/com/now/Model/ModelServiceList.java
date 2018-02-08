@@ -5,13 +5,14 @@ package saim.com.now.Model;
  */
 
 public class ModelServiceList {
-    public String id, service_id, service_name, service_icon, service_status;
+    public String id, service_id, service_name, service_icon, service_color,service_status;
 
-    public ModelServiceList(String id, String service_id, String service_name, String service_icon, String service_status) {
+    public ModelServiceList(String id, String service_id, String service_name, String service_icon, String service_color, String service_status) {
         this.id = id;
         this.service_id = service_id;
         this.service_name = service_name;
         this.service_icon = service_icon;
+        this.service_color = service_color;
         this.service_status = service_status;
     }
 
@@ -29,6 +30,10 @@ public class ModelServiceList {
 
     public String getService_icon() {
         return service_icon;
+    }
+
+    public String getService_color() {
+        return service_color;
     }
 
     public String getService_status() {
