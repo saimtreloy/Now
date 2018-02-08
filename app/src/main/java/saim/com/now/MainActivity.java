@@ -1,8 +1,12 @@
 package saim.com.now;
 
+import android.annotation.TargetApi;
+import android.app.ActivityOptions;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
@@ -11,6 +15,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -32,6 +37,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import saim.com.now.Activity.Profile;
 import saim.com.now.Adapter.AdapterServiceList;
 import saim.com.now.Model.ModelServiceList;
 import saim.com.now.Utilities.ApiURL;
@@ -51,6 +57,8 @@ public class MainActivity extends AppCompatActivity {
     RecyclerView recyclerViewServiceList;
     RecyclerView.LayoutManager layoutManagerServiceList;
     RecyclerView.Adapter serviceListAdapter;
+
+    CircleImageView imgNavProfile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,7 +112,7 @@ public class MainActivity extends AppCompatActivity {
 
         View headerView = navigationView.getHeaderView(0);
 
-        CircleImageView imgNavProfile = (CircleImageView) headerView.findViewById(R.id.imgNavProfile);
+        imgNavProfile = (CircleImageView) headerView.findViewById(R.id.imgNavProfile);
         ImageView imgLogoutHeader = (ImageView) headerView.findViewById(R.id.imgLogoutHeader);
 
         TextView txtNavName = (TextView) headerView.findViewById(R.id.txtNavName);
@@ -119,14 +127,45 @@ public class MainActivity extends AppCompatActivity {
         txtNavName.setText(new SharedPrefDatabase(getApplicationContext()).RetriveUserName());
         txtNavEmail.setText(new SharedPrefDatabase(getApplicationContext()).RetriveUserEmail());
 
+        imgNavProfile.setOnClickListener(new View.OnClickListener() {
+            @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+            @Override
+            public void onClick(View v) {
+                /*Intent intent = new Intent(getApplicationContext(), Profile.class);
+                Pair[] pairs = new Pair[1];
+                pairs[0] = new Pair<View, String>(imgNavProfile, "profileImage");
+                ActivityOptions activityOptions = ActivityOptions.makeSceneTransitionAnimation(MainActivity.this, pairs);
+                startActivity(intent, activityOptions.toBundle());*/
+                startActivity(new Intent(getApplicationContext(), Profile.class));
+                drawerLayout.closeDrawers();
+            }
+        });
         imgLogoutHeader.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                drawerLayout.closeDrawers();
                 AlertLogout();
             }
         });
 
         Menu nav_menu = navigationView.getMenu();
+
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                if (item.getItemId() == R.id.btnMenuProfile) {
+                    drawerLayout.closeDrawers();
+                    /*Intent intent = new Intent(getApplicationContext(), Profile.class);
+                    Pair[] pairs = new Pair[1];
+                    pairs[0] = new Pair<View, String>(imgNavProfile, "profileImage");
+                    ActivityOptions activityOptions = ActivityOptions.makeSceneTransitionAnimation(MainActivity.this, pairs);
+                    startActivity(intent, activityOptions.toBundle());*/
+                    startActivity(new Intent(getApplicationContext(), Profile.class));
+                }
+                return false;
+            }
+        });
 
     }
 
