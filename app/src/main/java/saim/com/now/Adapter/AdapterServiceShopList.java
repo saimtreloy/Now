@@ -1,9 +1,9 @@
 package saim.com.now.Adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,25 +16,25 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 
 import saim.com.now.Model.ModelServiceList;
+import saim.com.now.Model.ModelShopMenu;
 import saim.com.now.R;
-import saim.com.now.Shop.ShopHome;
 
 /**
  * Created by Android on 8/6/2017.
  */
 
-public class AdapterServiceList extends RecyclerView.Adapter<AdapterServiceList.ServiceListViewHolder>{
+public class AdapterServiceShopList extends RecyclerView.Adapter<AdapterServiceShopList.ServiceListViewHolder>{
 
-    ArrayList<ModelServiceList> adapterList = new ArrayList<>();
+    ArrayList<ModelShopMenu> adapterList = new ArrayList<>();
     Context mContext;
 
     public static String post_id = "";
 
-    public AdapterServiceList(ArrayList<ModelServiceList> adapterList) {
+    public AdapterServiceShopList(ArrayList<ModelShopMenu> adapterList) {
         this.adapterList = adapterList;
     }
 
-    public AdapterServiceList(ArrayList<ModelServiceList> adapterList, Context mContext) {
+    public AdapterServiceShopList(ArrayList<ModelShopMenu> adapterList, Context mContext) {
         this.adapterList = adapterList;
         this.mContext = mContext;
     }
@@ -50,12 +50,14 @@ public class AdapterServiceList extends RecyclerView.Adapter<AdapterServiceList.
     public void onBindViewHolder(ServiceListViewHolder holder, int position) {
 
         Picasso.with(holder.listImageView.getContext())
-                .load(adapterList.get(position).getService_icon())
+                .load(adapterList.get(position).getService_shop_icon())
                 .placeholder(R.drawable.ic_placeholder_icon)
                 .error(R.drawable.ic_placeholder_icon)
                 .into(holder.listImageView);
-        holder.listImageView.setColorFilter(Color.parseColor(adapterList.get(position).getService_color()));
-        holder.listName.setText(adapterList.get(position).getService_name());
+        holder.listImageView.setColorFilter(Color.parseColor(adapterList.get(position).getService_shop_color()));
+        holder.listName.setText(adapterList.get(position).getService_shop_name());
+        holder.listName.setTextColor(Color.parseColor("#666666"));
+        Log.d("SHOP NAME", adapterList.get(position).getService_shop_name());
 
     }
 
@@ -80,11 +82,7 @@ public class AdapterServiceList extends RecyclerView.Adapter<AdapterServiceList.
 
         @Override
         public void onClick(View v) {
-            Toast.makeText(v.getContext(), adapterList.get(getAdapterPosition()).getService_name() + " service is under maintanance at this time.", Toast.LENGTH_SHORT).show();
-            if (adapterList.get(getAdapterPosition()).getService_id().equals("1")){
-                Intent intent = new Intent(v.getContext(), ShopHome.class);
-                v.getContext().startActivity(intent);
-            }
+            Toast.makeText(v.getContext(), adapterList.get(getAdapterPosition()).getService_shop_name() + " service is under maintanance at this time.", Toast.LENGTH_SHORT).show();
         }
     }
 }
