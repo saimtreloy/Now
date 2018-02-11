@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="saim.com.now.Shop.ShopHome">
+    tools:context="saim.com.now.Shop.ShopCategory">
 
     <android.support.v7.widget.Toolbar
         xmlns:android="http://schemas.android.com/apk/res/android"
@@ -22,15 +22,13 @@
         app:contentInsetStart="0dp"
         app:contentInsetStartWithNavigation="0dp" />
 
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-
         android:layout_below="@id/toolbarHome">
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/recyclerViewServiceShopList"
+            android:id="@+id/recyclerViewServiceShopCatList"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center_horizontal"

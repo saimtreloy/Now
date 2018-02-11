@@ -1,7 +1,6 @@
 package saim.com.now.Adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -16,34 +15,33 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-import saim.com.now.Model.ModelServiceList;
+import saim.com.now.Model.ModelShopCatMenu;
 import saim.com.now.Model.ModelShopMenu;
 import saim.com.now.R;
-import saim.com.now.Shop.ShopCategory;
 
 /**
  * Created by Android on 8/6/2017.
  */
 
-public class AdapterServiceShopList extends RecyclerView.Adapter<AdapterServiceShopList.ServiceListViewHolder>{
+public class AdapterServiceShopCatList extends RecyclerView.Adapter<AdapterServiceShopCatList.ServiceListViewHolder>{
 
-    ArrayList<ModelShopMenu> adapterList = new ArrayList<>();
+    ArrayList<ModelShopCatMenu> adapterList = new ArrayList<>();
     Context mContext;
 
     public static String post_id = "";
 
-    public AdapterServiceShopList(ArrayList<ModelShopMenu> adapterList) {
+    public AdapterServiceShopCatList(ArrayList<ModelShopCatMenu> adapterList) {
         this.adapterList = adapterList;
     }
 
-    public AdapterServiceShopList(ArrayList<ModelShopMenu> adapterList, Context mContext) {
+    public AdapterServiceShopCatList(ArrayList<ModelShopCatMenu> adapterList, Context mContext) {
         this.adapterList = adapterList;
         this.mContext = mContext;
     }
 
     @Override
     public ServiceListViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_service_list, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_service_cat_list, parent, false);
         ServiceListViewHolder serviceListViewHolder = new ServiceListViewHolder(view);
         return serviceListViewHolder;
     }
@@ -52,14 +50,14 @@ public class AdapterServiceShopList extends RecyclerView.Adapter<AdapterServiceS
     public void onBindViewHolder(ServiceListViewHolder holder, int position) {
 
         Picasso.with(holder.listImageView.getContext())
-                .load(adapterList.get(position).getService_shop_icon())
+                .load(adapterList.get(position).getService_shop_ic_icon())
                 .placeholder(R.drawable.ic_placeholder_icon)
                 .error(R.drawable.ic_placeholder_icon)
                 .into(holder.listImageView);
-        holder.listImageView.setColorFilter(Color.parseColor(adapterList.get(position).getService_shop_color()));
-        holder.listName.setText(adapterList.get(position).getService_shop_name());
+        //holder.listImageView.setColorFilter(Color.parseColor(adapterList.get(position).getService_shop_ic_color()));
+        holder.listName.setText(adapterList.get(position).getService_shop_ic_name());
         holder.listName.setTextColor(Color.parseColor("#666666"));
-        Log.d("SHOP NAME", adapterList.get(position).getService_shop_name());
+        Log.d("SHOP NAME", adapterList.get(position).getService_shop_ic_name());
 
     }
 
@@ -84,15 +82,7 @@ public class AdapterServiceShopList extends RecyclerView.Adapter<AdapterServiceS
 
         @Override
         public void onClick(View v) {
-            if (getAdapterPosition()>2){
-                Intent intent = new Intent(v.getContext(), ShopCategory.class);
-                intent.putExtra("SERVICE_SHOP_ID", adapterList.get(getAdapterPosition()).getService_shop_id());
-                intent.putExtra("SERVICE_SHOP_NAME", adapterList.get(getAdapterPosition()).getService_shop_name());
-                v.getContext().startActivity(intent);
-            } else {
-                Toast.makeText(v.getContext(), "Saim Kamona cho", Toast.LENGTH_SHORT).show();
-            }
-
+            Toast.makeText(v.getContext(), adapterList.get(getAdapterPosition()).getService_shop_ic_name() + " service is under maintanance at this time.", Toast.LENGTH_SHORT).show();
         }
     }
 }

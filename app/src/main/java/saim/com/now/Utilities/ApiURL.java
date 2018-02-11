@@ -12,5 +12,6 @@ public class ApiURL {
     public static String Register = link_header + "register.php";           //user_name, user_email, user_mobile, user_pass
     public static String Service_List = link_header + "service_list.php";
     public static String Service_Shop_List = link_header + "service_shop_list.php";
+    public static String Service_Shop_Cat_List = link_header + "service_shop_cat_list.php";     //service_shop_id
 
 }
