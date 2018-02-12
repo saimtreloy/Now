@@ -51,12 +51,11 @@ public class AdapterServiceShopCatList extends RecyclerView.Adapter<AdapterServi
 
         Picasso.with(holder.listImageView.getContext())
                 .load(adapterList.get(position).getService_shop_ic_icon())
-                .placeholder(R.drawable.ic_placeholder_icon)
-                .error(R.drawable.ic_placeholder_icon)
+                .placeholder(R.drawable.ic_placeholder_land)
+                .error(R.drawable.ic_placeholder_land )
                 .into(holder.listImageView);
         //holder.listImageView.setColorFilter(Color.parseColor(adapterList.get(position).getService_shop_ic_color()));
         holder.listName.setText(adapterList.get(position).getService_shop_ic_name());
-        holder.listName.setTextColor(Color.parseColor("#666666"));
         Log.d("SHOP NAME", adapterList.get(position).getService_shop_ic_name());
 
     }

@@ -129,7 +129,6 @@ public class ShopCategory extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.option_menu_shop, menu);
         return true;
     }

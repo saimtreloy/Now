@@ -16,10 +16,12 @@
 
     <TextView
         android:id="@+id/listName"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:text="NOW-RIDE"
+        android:text="NOW-RIDE NOW RIDE NOW RIDE NOR RIDE"
+        android:gravity="center"
+        android:textColor="#FFFFFF"
         android:textStyle="bold"
         android:textSize="18sp"/>
 
