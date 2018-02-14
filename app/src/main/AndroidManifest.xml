@@ -21,7 +21,8 @@
         <activity android:name=".MainActivity" />
         <activity android:name=".Activity.Profile" />
         <activity android:name=".Shop.ShopHome" />
-        <activity android:name=".Shop.ShopCategory"></activity>
+        <activity android:name=".Shop.ShopCategory" />
+        <activity android:name=".Shop.ShopItemList"></activity>
     </application>
 
 </manifest>
