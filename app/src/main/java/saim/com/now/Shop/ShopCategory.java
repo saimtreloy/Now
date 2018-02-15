@@ -117,7 +117,6 @@ public class ShopCategory extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String,String> params = new HashMap<String, String>();
-                Log.d("SAIM KAMON ACHO", service_shop_id);
                 params.put("service_shop_id", service_shop_id);
 
                 return params;

@@ -20,6 +20,7 @@ import saim.com.now.Model.ModelServiceList;
 import saim.com.now.Model.ModelShopMenu;
 import saim.com.now.R;
 import saim.com.now.Shop.ShopCategory;
+import saim.com.now.Shop.ShopItemList;
 
 /**
  * Created by Android on 8/6/2017.
@@ -84,13 +85,19 @@ public class AdapterServiceShopList extends RecyclerView.Adapter<AdapterServiceS
 
         @Override
         public void onClick(View v) {
-            if (getAdapterPosition()>2){
+            if (adapterList.get(getAdapterPosition()).getService_shop_type().equals("category")){
                 Intent intent = new Intent(v.getContext(), ShopCategory.class);
                 intent.putExtra("SERVICE_SHOP_ID", adapterList.get(getAdapterPosition()).getService_shop_id());
                 intent.putExtra("SERVICE_SHOP_NAME", adapterList.get(getAdapterPosition()).getService_shop_name());
                 v.getContext().startActivity(intent);
+            } else if(adapterList.get(getAdapterPosition()).getService_shop_type().equals("non_category")){
+                Log.d("SAIM SAIM", adapterList.get(getAdapterPosition()).getService_shop_id());
+                Intent intent = new Intent(v.getContext(), ShopItemList.class);
+                intent.putExtra("service_shop_id", adapterList.get(getAdapterPosition()).getService_shop_id());
+                intent.putExtra("service_shop_type", adapterList.get(getAdapterPosition()).getService_shop_type());
+                v.getContext().startActivity(intent);
             } else {
-                Toast.makeText(v.getContext(), "Saim Kamona cho", Toast.LENGTH_SHORT).show();
+                Toast.makeText(v.getContext(), "We are sorry something wrong!!!", Toast.LENGTH_SHORT).show();
             }
 
         }

@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -21,6 +22,8 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import saim.com.now.Adapter.AdapterServiceItemList;
 import saim.com.now.Adapter.AdapterServiceShopList;
@@ -40,6 +43,8 @@ public class ShopItemList extends AppCompatActivity {
     RecyclerView.Adapter serviceItemListAdapter;
 
     ProgressBar progressBar;
+
+    public String service_shop_id, service_shop_type;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,13 +66,16 @@ public class ShopItemList extends AppCompatActivity {
         recyclerViewServiceItemList.setLayoutManager(manager);
         recyclerViewServiceItemList.setHasFixedSize(true);
 
-        ServiceShopList();
+        service_shop_id = getIntent().getExtras().getString("service_shop_id");
+        service_shop_type = getIntent().getExtras().getString("service_shop_type");
+
+        ServiceShopItemList(service_shop_id, service_shop_type);
     }
 
 
-    public void ServiceShopList(){
+    public void ServiceShopItemList(final String service_shop_id, final String service_shop_type){
         progressBar.setVisibility(View.VISIBLE);
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, ApiURL.Service_Shop_List,
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, ApiURL.Service_Shop_Item_List,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -111,7 +119,16 @@ public class ShopItemList extends AppCompatActivity {
             public void onErrorResponse(VolleyError error) {
 
             }
-        });
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String,String> params = new HashMap<String, String>();
+                params.put("service_shop_id", service_shop_id);
+                params.put("service_shop_type", service_shop_type);
+
+                return params;
+            }
+        };
         stringRequest.setShouldCache(false);
         MySingleton.getInstance(getApplicationContext()).addToRequestQueue(stringRequest);
     }

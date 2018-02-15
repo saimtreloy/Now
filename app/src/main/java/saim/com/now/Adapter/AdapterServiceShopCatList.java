@@ -1,6 +1,7 @@
 package saim.com.now.Adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -18,6 +19,7 @@ import java.util.ArrayList;
 import saim.com.now.Model.ModelShopCatMenu;
 import saim.com.now.Model.ModelShopMenu;
 import saim.com.now.R;
+import saim.com.now.Shop.ShopItemList;
 
 /**
  * Created by Android on 8/6/2017.
@@ -81,7 +83,10 @@ public class AdapterServiceShopCatList extends RecyclerView.Adapter<AdapterServi
 
         @Override
         public void onClick(View v) {
-            Toast.makeText(v.getContext(), adapterList.get(getAdapterPosition()).getService_shop_ic_name() + " service is under maintanance at this time.", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(v.getContext(), ShopItemList.class);
+            intent.putExtra("service_shop_id", adapterList.get(getAdapterPosition()).getService_shop_ic_id());
+            intent.putExtra("service_shop_type", "category");
+            v.getContext().startActivity(intent);
         }
     }
 }

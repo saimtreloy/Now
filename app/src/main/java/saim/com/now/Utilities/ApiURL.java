@@ -13,5 +13,5 @@ public class ApiURL {
     public static String Service_List = link_header + "service_list.php";
     public static String Service_Shop_List = link_header + "service_shop_list.php";
     public static String Service_Shop_Cat_List = link_header + "service_shop_cat_list.php";     //service_shop_id
-
+    public static String Service_Shop_Item_List = link_header + "service_shop_item_list.php";     //service_shop_id, service_shop_type
 }
