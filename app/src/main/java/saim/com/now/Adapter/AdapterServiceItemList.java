@@ -3,6 +3,7 @@ package saim.com.now.Adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -43,7 +44,7 @@ public class AdapterServiceItemList extends RecyclerView.Adapter<AdapterServiceI
 
     @Override
     public ServiceListViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_service_list, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_service_item_list, parent, false);
         ServiceListViewHolder serviceListViewHolder = new ServiceListViewHolder(view);
         return serviceListViewHolder;
     }
@@ -56,9 +57,18 @@ public class AdapterServiceItemList extends RecyclerView.Adapter<AdapterServiceI
                 .placeholder(R.drawable.ic_placeholder_icon)
                 .error(R.drawable.ic_placeholder_icon)
                 .into(holder.listImageView);
+
+        Picasso.with(holder.listVendor.getContext())
+                .load(adapterList.get(position).getItem_vendor())
+                .placeholder(R.drawable.ic_placeholder_icon)
+                .error(R.drawable.ic_placeholder_icon)
+                .into(holder.listVendor);
         //holder.listImageView.setColorFilter(Color.parseColor(adapterList.get(position).getService_shop_color()));
+
         holder.listName.setText(adapterList.get(position).getItem_name());
-        holder.listName.setTextColor(Color.parseColor("#666666"));
+        holder.listQuentity.setText(adapterList.get(position).getItem_quantity());
+        holder.listPrice.setText(adapterList.get(position).getItem_price());
+        holder.listPriceD.setText(adapterList.get(position).getItem_d_price());
 
     }
 
@@ -69,14 +79,21 @@ public class AdapterServiceItemList extends RecyclerView.Adapter<AdapterServiceI
 
     public class ServiceListViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        ImageView listImageView;
-        TextView listName;
+        ImageView listImageView, listVendor, imgButtonAdd;
+        TextView listName, listQuentity, listPrice, listPriceD;
 
         public ServiceListViewHolder(View itemView) {
             super(itemView);
 
             listImageView = (ImageView) itemView.findViewById(R.id.listImageView);
+            listVendor = (ImageView) itemView.findViewById(R.id.listVendor);
+            imgButtonAdd = (ImageView) itemView.findViewById(R.id.imgButtonAdd);
+
             listName = (TextView) itemView.findViewById(R.id.listName);
+            listQuentity = (TextView) itemView.findViewById(R.id.listQuentity);
+            listPrice = (TextView) itemView.findViewById(R.id.listPrice);
+            listPrice.setPaintFlags(listPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+            listPriceD = (TextView) itemView.findViewById(R.id.listPriceD);
 
             itemView.setOnClickListener(this);
         }

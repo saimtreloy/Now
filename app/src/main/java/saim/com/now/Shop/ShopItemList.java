@@ -3,6 +3,7 @@ package saim.com.now.Shop;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -63,7 +64,8 @@ public class ShopItemList extends AppCompatActivity {
 
         recyclerViewServiceItemList = (RecyclerView) findViewById(R.id.recyclerViewServiceItemList);
         GridLayoutManager manager = new GridLayoutManager(this, 3, GridLayoutManager.VERTICAL, false);
-        recyclerViewServiceItemList.setLayoutManager(manager);
+        layoutManagerServiceShopList = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false);
+        recyclerViewServiceItemList.setLayoutManager(layoutManagerServiceShopList);
         recyclerViewServiceItemList.setHasFixedSize(true);
 
         service_shop_id = getIntent().getExtras().getString("service_shop_id");
