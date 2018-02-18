@@ -100,8 +100,9 @@ public class ShopItemList extends AppCompatActivity {
                                     String item_quantity = jsonObjectServiceList.getString("item_quantity");
                                     String item_icon = jsonObjectServiceList.getString("item_icon");
                                     String item_vendor = jsonObjectServiceList.getString("item_vendor");
+                                    String item_vendor_icon = jsonObjectServiceList.getString("item_vendor_icon");
 
-                                    ModelItemList modelItemList = new ModelItemList(id, item_id, item_name, item_price, item_d_price, item_quantity, item_icon, item_vendor);
+                                    ModelItemList modelItemList = new ModelItemList(id, item_id, item_name, item_price, item_d_price, item_quantity, item_icon, item_vendor, item_vendor_icon);
                                     itemListArrayList.add(modelItemList);
                                 }
 

@@ -26,15 +26,14 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-
+        android:background="@android:color/white"
         android:layout_below="@id/toolbarHome">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerViewServiceItemList"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_gravity="center_horizontal"
-            android:background="#333">
+            android:layout_gravity="center_horizontal">
 
         </android.support.v7.widget.RecyclerView>
 

@@ -59,7 +59,7 @@ public class AdapterServiceItemList extends RecyclerView.Adapter<AdapterServiceI
                 .into(holder.listImageView);
 
         Picasso.with(holder.listVendor.getContext())
-                .load(adapterList.get(position).getItem_vendor())
+                .load(adapterList.get(position).getItem_vendor_icon())
                 .placeholder(R.drawable.ic_placeholder_icon)
                 .error(R.drawable.ic_placeholder_icon)
                 .into(holder.listVendor);
@@ -67,8 +67,8 @@ public class AdapterServiceItemList extends RecyclerView.Adapter<AdapterServiceI
 
         holder.listName.setText(adapterList.get(position).getItem_name());
         holder.listQuentity.setText(adapterList.get(position).getItem_quantity());
-        holder.listPrice.setText(adapterList.get(position).getItem_price());
-        holder.listPriceD.setText(adapterList.get(position).getItem_d_price());
+        holder.listPrice.setText(adapterList.get(position).getItem_price() + "tk");
+        holder.listPriceD.setText(adapterList.get(position).getItem_d_price() + "tk");
 
     }
 
