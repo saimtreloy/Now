@@ -64,7 +64,7 @@ public class ShopVendor extends AppCompatActivity {
         progressBar = findViewById(R.id.progressBar);
 
         recyclerViewServiceVendorList = (RecyclerView) findViewById(R.id.recyclerViewServiceVendorList);
-        GridLayoutManager manager = new GridLayoutManager(this, 3, GridLayoutManager.VERTICAL, false);
+        GridLayoutManager manager = new GridLayoutManager(this, 2, GridLayoutManager.VERTICAL, false);
         recyclerViewServiceVendorList.setLayoutManager(manager);
         recyclerViewServiceVendorList.setHasFixedSize(true);
 
