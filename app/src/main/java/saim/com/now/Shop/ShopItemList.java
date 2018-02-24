@@ -128,6 +128,7 @@ public class ShopItemList extends AppCompatActivity {
                 Map<String,String> params = new HashMap<String, String>();
                 params.put("service_shop_id", service_shop_id);
                 params.put("service_shop_type", service_shop_type);
+                params.put("item_vendor", ShopHome.VENDOR_ID);
 
                 return params;
             }

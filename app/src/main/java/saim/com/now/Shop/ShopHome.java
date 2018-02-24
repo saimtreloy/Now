@@ -33,6 +33,7 @@ import saim.com.now.Utilities.MySingleton;
 public class ShopHome extends AppCompatActivity {
 
     public static Toolbar toolbar;
+    public static String VENDOR_ID;
 
     ArrayList<ModelShopMenu> arrayListServiceShopList = new ArrayList<>();
     RecyclerView recyclerViewServiceShopList;
@@ -61,6 +62,8 @@ public class ShopHome extends AppCompatActivity {
         GridLayoutManager manager = new GridLayoutManager(this, 3, GridLayoutManager.VERTICAL, false);
         recyclerViewServiceShopList.setLayoutManager(manager);
         recyclerViewServiceShopList.setHasFixedSize(true);
+
+        VENDOR_ID = getIntent().getExtras().getString("VENDOR_ID");
 
         ServiceShopList();
     }

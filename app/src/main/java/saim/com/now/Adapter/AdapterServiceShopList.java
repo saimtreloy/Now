@@ -95,7 +95,7 @@ public class AdapterServiceShopList extends RecyclerView.Adapter<AdapterServiceS
                 Intent intent = new Intent(v.getContext(), ShopItemList.class);
                 intent.putExtra("service_shop_id", adapterList.get(getAdapterPosition()).getService_shop_id());
                 intent.putExtra("service_shop_type", adapterList.get(getAdapterPosition()).getService_shop_type());
-                v.getContext().startActivity(intent);
+                v.getContext(). startActivity(intent);
             } else {
                 Toast.makeText(v.getContext(), "We are sorry something wrong!!!", Toast.LENGTH_SHORT).show();
             }
