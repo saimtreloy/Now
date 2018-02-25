@@ -86,6 +86,7 @@ public class AdapterServiceShopCatList extends RecyclerView.Adapter<AdapterServi
             Intent intent = new Intent(v.getContext(), ShopItemList.class);
             intent.putExtra("service_shop_id", adapterList.get(getAdapterPosition()).getService_shop_ic_id());
             intent.putExtra("service_shop_type", "category");
+            intent.putExtra("title", adapterList.get(getAdapterPosition()).getService_shop_ic_name());
             v.getContext().startActivity(intent);
         }
     }

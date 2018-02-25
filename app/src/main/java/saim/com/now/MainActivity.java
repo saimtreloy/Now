@@ -40,6 +40,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -47,6 +48,7 @@ import java.util.ArrayList;
 import de.hdodenhof.circleimageview.CircleImageView;
 import saim.com.now.Activity.Profile;
 import saim.com.now.Adapter.AdapterServiceList;
+import saim.com.now.Database.DatabaseHandler;
 import saim.com.now.Model.ModelLocation;
 import saim.com.now.Model.ModelServiceList;
 import saim.com.now.Utilities.ApiURL;
@@ -75,12 +77,26 @@ public class MainActivity extends AppCompatActivity {
     Spinner spinnerLocation;
     Button btnLocation;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         init();
+
+        String s = "[{\" delivered \":\" 1\"}, {\"delivered \":\" 11\"},{\"delivered \":\" 19\"}]";
+        try {
+            JSONArray jsonArray = new JSONArray(s);
+            for (int i=0; i<jsonArray.length(); i++){
+                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                String delivered = jsonObject.getString(" delivered ").trim();
+                int deliveredInt = Integer.parseInt(delivered);
+                Log.d("DELIVERD INT", deliveredInt + "");
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     public void init(){

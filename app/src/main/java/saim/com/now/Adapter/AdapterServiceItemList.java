@@ -79,8 +79,10 @@ public class AdapterServiceItemList extends RecyclerView.Adapter<AdapterServiceI
 
     public class ServiceListViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        ImageView listImageView, listVendor, imgButtonAdd;
-        TextView listName, listQuentity, listPrice, listPriceD;
+        int itemQ = 0;
+
+        ImageView listImageView, listVendor, imgButtonAdd, imgButtonSubtract;
+        TextView listName, listQuentity, listPrice, listPriceD, listItemQ;
 
         public ServiceListViewHolder(View itemView) {
             super(itemView);
@@ -88,14 +90,80 @@ public class AdapterServiceItemList extends RecyclerView.Adapter<AdapterServiceI
             listImageView = (ImageView) itemView.findViewById(R.id.listImageView);
             listVendor = (ImageView) itemView.findViewById(R.id.listVendor);
             imgButtonAdd = (ImageView) itemView.findViewById(R.id.imgButtonAdd);
+            imgButtonSubtract = (ImageView) itemView.findViewById(R.id.imgButtonSubtract);
 
             listName = (TextView) itemView.findViewById(R.id.listName);
             listQuentity = (TextView) itemView.findViewById(R.id.listQuentity);
             listPrice = (TextView) itemView.findViewById(R.id.listPrice);
             listPrice.setPaintFlags(listPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
             listPriceD = (TextView) itemView.findViewById(R.id.listPriceD);
+            listItemQ = (TextView) itemView.findViewById(R.id.listItemQ);
+
+            itemQ = Integer.parseInt(listItemQ.getText().toString());
+            if (itemQ > 0){
+                listItemQ.setVisibility(View.VISIBLE);
+                imgButtonSubtract.setVisibility(View.VISIBLE);
+            } else {
+                listItemQ.setVisibility(View.GONE);
+                imgButtonSubtract.setVisibility(View.GONE);
+            }
 
             itemView.setOnClickListener(this);
+
+
+            imgButtonAdd.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent("com.moodybugs.banglamusic.StopService");
+                    intent.putExtra("KEY_ID", adapterList.get(getAdapterPosition()).getId());
+                    intent.putExtra("KEY_ITEM_ID", adapterList.get(getAdapterPosition()).getItem_id());
+                    intent.putExtra("KEY_NAME", adapterList.get(getAdapterPosition()).getItem_name());
+                    intent.putExtra("KEY_PRICE", adapterList.get(getAdapterPosition()).getItem_price());
+                    intent.putExtra("KEY_PRICE_D", adapterList.get(getAdapterPosition()).getItem_d_price());
+                    intent.putExtra("KEY_QUANTITY", adapterList.get(getAdapterPosition()).getItem_quantity());
+                    intent.putExtra("KEY_ICON", adapterList.get(getAdapterPosition()).getItem_icon());
+                    intent.putExtra("KEY_VENDOR", adapterList.get(getAdapterPosition()).getItem_vendor());
+                    intent.putExtra("KEY_VENDOR_ICON", adapterList.get(getAdapterPosition()).getItem_vendor_icon());
+                    intent.putExtra("KEY_CART_Q", itemQ++);
+
+                    listItemQ.setVisibility(View.VISIBLE);
+                    listItemQ.setText(itemQ + "");
+                    imgButtonSubtract.setVisibility(View.VISIBLE);
+
+                    v.getContext().sendBroadcast(intent);
+                }
+            });
+
+            imgButtonSubtract.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent("com.moodybugs.banglamusic.StopService");
+                    intent.putExtra("KEY_ID", adapterList.get(getAdapterPosition()).getId());
+                    intent.putExtra("KEY_ITEM_ID", adapterList.get(getAdapterPosition()).getItem_id());
+                    intent.putExtra("KEY_NAME", adapterList.get(getAdapterPosition()).getItem_name());
+                    intent.putExtra("KEY_PRICE", adapterList.get(getAdapterPosition()).getItem_price());
+                    intent.putExtra("KEY_PRICE_D", adapterList.get(getAdapterPosition()).getItem_d_price());
+                    intent.putExtra("KEY_QUANTITY", adapterList.get(getAdapterPosition()).getItem_quantity());
+                    intent.putExtra("KEY_ICON", adapterList.get(getAdapterPosition()).getItem_icon());
+                    intent.putExtra("KEY_VENDOR", adapterList.get(getAdapterPosition()).getItem_vendor());
+                    intent.putExtra("KEY_VENDOR_ICON", adapterList.get(getAdapterPosition()).getItem_vendor_icon());
+                    intent.putExtra("KEY_CART_Q", itemQ--);
+
+                    listItemQ.setVisibility(View.VISIBLE);
+                    listItemQ.setText(itemQ + "");
+                    imgButtonSubtract.setVisibility(View.VISIBLE);
+
+                    v.getContext().sendBroadcast(intent);
+
+                    if (itemQ > 0){
+                        listItemQ.setVisibility(View.VISIBLE);
+                        imgButtonSubtract.setVisibility(View.VISIBLE);
+                    } else {
+                        listItemQ.setVisibility(View.GONE);
+                        imgButtonSubtract.setVisibility(View.GONE);
+                    }
+                }
+            });
         }
 
         @Override

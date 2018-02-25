@@ -1,5 +1,9 @@
 package saim.com.now.Shop;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -28,6 +32,7 @@ import java.util.Map;
 
 import saim.com.now.Adapter.AdapterServiceItemList;
 import saim.com.now.Adapter.AdapterServiceShopList;
+import saim.com.now.Database.DatabaseHandler;
 import saim.com.now.Model.ModelItemList;
 import saim.com.now.Model.ModelShopMenu;
 import saim.com.now.R;
@@ -47,6 +52,9 @@ public class ShopItemList extends AppCompatActivity {
 
     public String service_shop_id, service_shop_type;
 
+    //Database
+    public DatabaseHandler db;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,6 +66,7 @@ public class ShopItemList extends AppCompatActivity {
     private void init() {
         toolbar = (Toolbar) findViewById(R.id.toolbarHome);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle(getIntent().getExtras().getString("title"));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         progressBar = findViewById(R.id.progressBar);
@@ -72,6 +81,8 @@ public class ShopItemList extends AppCompatActivity {
         service_shop_type = getIntent().getExtras().getString("service_shop_type");
 
         ServiceShopItemList(service_shop_id, service_shop_type);
+
+        db = new DatabaseHandler(this);
     }
 
 
@@ -154,5 +165,42 @@ public class ShopItemList extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+
+    private final BroadcastReceiver StopService = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String KEY_ID = intent.getExtras().getString("KEY_ID");
+            String KEY_ITEM_ID = intent.getExtras().getString("KEY_ITEM_ID");
+            String KEY_NAME = intent.getExtras().getString("KEY_NAME");
+            String KEY_PRICE = intent.getExtras().getString("KEY_PRICE");
+            String KEY_PRICE_D = intent.getExtras().getString("KEY_PRICE_D");
+            String KEY_QUANTITY = intent.getExtras().getString("KEY_QUANTITY");
+            String KEY_ICON = intent.getExtras().getString("KEY_ICON");
+            String KEY_VENDOR = intent.getExtras().getString("KEY_VENDOR");
+            String KEY_VENDOR_ICON = intent.getExtras().getString("KEY_VENDOR_ICON");
+            int KEY_CART_Q = intent.getExtras().getInt("KEY_CART_Q");
+
+            ArrayList<ModelItemList> itemLists = db.getAllContacts();
+            Log.d("SAIM SAIM S", itemLists.size()+"");
+            for (int i=0; i<itemLists.size(); i++) {
+                if (itemLists.get(i).getId().equals(KEY_ID)){
+
+                }
+            }
+        }
+    };
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        registerReceiver(StopService, new IntentFilter("com.moodybugs.banglamusic.StopService"));
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(StopService);
     }
 }

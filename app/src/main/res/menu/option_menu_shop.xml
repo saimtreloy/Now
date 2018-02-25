@@ -2,8 +2,20 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
+        android:id="@+id/btnOptionShopCamera"
+        android:title="Camera"
+        android:icon="@android:drawable/ic_menu_camera"
+        app:showAsAction="always"/>
+
+    <item
         android:id="@+id/btnOptionShopSearch"
         android:title="Search"
         android:icon="@android:drawable/ic_menu_search"
-        app:showAsAction="always"/>]
+        app:showAsAction="always"/>
+
+    <item
+        android:id="@+id/btnOptionShopCart"
+        android:title="Cart"
+        android:icon="@drawable/ic_add_shopping_cart"
+        app:showAsAction="always"/>
 </menu>
