@@ -19,12 +19,10 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     // All Static variables
     // Database Version
     private static final int DATABASE_VERSION = 1;
-
-    // Database Name
     private static final String DATABASE_NAME = "ShoppingCart";
 
     // Contacts table name
-    private static final String TABLE_CONTACTS = "shoppingItem";
+    private static final String TABLE_ITEM = "shoppingItem";
 
     // Contacts Table Columns names
     private static final String KEY_ID = "id";
@@ -45,7 +43,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     // Creating Tables
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String CREATE_CONTACTS_TABLE = "CREATE TABLE " + TABLE_CONTACTS + "("
+        String CREATE_CONTACTS_TABLE = "CREATE TABLE " + TABLE_ITEM + " ("
                 + KEY_ID + " INTEGER PRIMARY KEY,"
                 + KEY_ITEM_ID + " TEXT,"
                 + KEY_NAME + " TEXT,"
@@ -54,7 +52,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 + KEY_QUANTITY + " TEXT,"
                 + KEY_ICON + " TEXT,"
                 + KEY_VENDOR + " TEXT,"
-                + KEY_VENDOR_ICON + " TEXT"
+                + KEY_VENDOR_ICON + " TEXT,"
                 + KEY_CART_Q + " INTEGER" + ")";
         db.execSQL(CREATE_CONTACTS_TABLE);
     }
@@ -62,19 +60,16 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     // Upgrading database
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        // Drop older table if existed
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_CONTACTS);
-
-        // Create tables again
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_ITEM);
         onCreate(db);
     }
 
     /**
      * All CRUD(Create, Read, Update, Delete) Operations
-     */
+     **/
 
     // Adding new contact
-    void addContact(ModelItemList itemList) {
+    public void addContact(ModelItemList itemList) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
@@ -87,9 +82,10 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         values.put(KEY_ICON, itemList.getItem_icon());
         values.put(KEY_VENDOR, itemList.getItem_vendor());
         values.put(KEY_VENDOR_ICON, itemList.getItem_vendor_icon());
+        values.put(KEY_CART_Q, itemList.getCartQ());
 
         // Inserting Row
-        db.insert(TABLE_CONTACTS, null, values);
+        db.insert(TABLE_ITEM, null, values);
         db.close();
     }
 
@@ -100,14 +96,14 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         values.put(KEY_CART_Q, c);
 
         // updating row
-        return db.update(TABLE_CONTACTS, values, KEY_ID + " = ?", new String[] { String.valueOf(c) });
+        return db.update(TABLE_ITEM, values, KEY_ID + " = ?", new String[] { String.valueOf(c) });
     }
 
     // Getting single contact
     ModelItemList getItemList(int id) {
         SQLiteDatabase db = this.getReadableDatabase();
 
-        Cursor cursor = db.query(TABLE_CONTACTS, new String[] { KEY_ID, KEY_ITEM_ID, KEY_NAME , KEY_PRICE , KEY_PRICE_D , KEY_QUANTITY , KEY_ICON , KEY_VENDOR , KEY_VENDOR_ICON , KEY_CART_Q},
+        Cursor cursor = db.query(TABLE_ITEM, new String[] { KEY_ID, KEY_ITEM_ID, KEY_NAME , KEY_PRICE , KEY_PRICE_D , KEY_QUANTITY , KEY_ICON , KEY_VENDOR , KEY_VENDOR_ICON , KEY_CART_Q},
                 KEY_ID + "=?", new String[] { String.valueOf(id) }, null, null, null, null);
         if (cursor != null) {
             cursor.moveToFirst();
@@ -126,12 +122,11 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     public ArrayList<ModelItemList> getAllContacts() {
         ArrayList<ModelItemList> modelItemLists = new ArrayList<ModelItemList>();
 
-        String selectQuery = "SELECT  * FROM " + TABLE_CONTACTS;
+        String selectQuery = "SELECT  * FROM " + TABLE_ITEM;
 
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
 
-        // looping through all rows and adding to list
         if (cursor.moveToFirst()) {
             do {
                 ModelItemList modelItemList = new ModelItemList(cursor.getString(0),
@@ -155,20 +150,20 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         values.put(KEY_CART_Q, itemList.getCartQ());
 
         // updating row
-        return db.update(TABLE_CONTACTS, values, KEY_ID + " = ?", new String[] { String.valueOf(itemList.getId()) });
+        return db.update(TABLE_ITEM, values, KEY_ID + " = ?", new String[] { String.valueOf(itemList.getId()) });
     }
 
     // Deleting single contact
     public void deleteContact(ModelItemList itemList) {
         SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(TABLE_CONTACTS, KEY_ID + " = ?", new String[] { String.valueOf(itemList.getId()) });
+        db.delete(TABLE_ITEM, KEY_ID + " = ?", new String[] { String.valueOf(itemList.getId()) });
         db.close();
     }
 
 
     // Getting contacts Count
     public int getContactsCount() {
-        String countQuery = "SELECT  * FROM " + TABLE_CONTACTS;
+        String countQuery = "SELECT  * FROM " + TABLE_ITEM;
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(countQuery, null);
         cursor.close();

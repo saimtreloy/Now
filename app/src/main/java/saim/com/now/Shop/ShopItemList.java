@@ -4,6 +4,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -22,10 +24,13 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -38,6 +43,7 @@ import saim.com.now.Model.ModelShopMenu;
 import saim.com.now.R;
 import saim.com.now.Utilities.ApiURL;
 import saim.com.now.Utilities.MySingleton;
+import saim.com.now.Utilities.SharedPrefDatabase;
 
 public class ShopItemList extends AppCompatActivity {
 
@@ -182,13 +188,9 @@ public class ShopItemList extends AppCompatActivity {
             String KEY_VENDOR_ICON = intent.getExtras().getString("KEY_VENDOR_ICON");
             int KEY_CART_Q = intent.getExtras().getInt("KEY_CART_Q");
 
-            ArrayList<ModelItemList> itemLists = db.getAllContacts();
-            Log.d("SAIM SAIM S", itemLists.size()+"");
-            for (int i=0; i<itemLists.size(); i++) {
-                if (itemLists.get(i).getId().equals(KEY_ID)){
+            ModelItemList mil = new ModelItemList(KEY_ID, KEY_ITEM_ID, KEY_NAME, KEY_PRICE, KEY_PRICE_D, KEY_QUANTITY, KEY_ICON, KEY_VENDOR, KEY_VENDOR_ICON, KEY_CART_Q);
 
-                }
-            }
+
         }
     };
 
@@ -202,5 +204,20 @@ public class ShopItemList extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         unregisterReceiver(StopService);
+    }
+
+
+    public void saveArrayList(ArrayList<ModelItemList> list){
+        Gson gson = new Gson();
+        String json = gson.toJson(list);
+
+        new SharedPrefDatabase(getApplicationContext()).StoreCartList(json);
+    }
+
+    public ArrayList<ModelItemList> getArrayList(){
+        Gson gson = new Gson();
+        String json = new SharedPrefDatabase(getApplicationContext()).RetriveCartList();
+        Type type = new TypeToken<ArrayList<ModelItemList>>() {}.getType();
+        return gson.fromJson(json, type);
     }
 }
