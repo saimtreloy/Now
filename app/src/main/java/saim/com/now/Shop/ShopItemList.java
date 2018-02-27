@@ -186,11 +186,30 @@ public class ShopItemList extends AppCompatActivity {
             String KEY_ICON = intent.getExtras().getString("KEY_ICON");
             String KEY_VENDOR = intent.getExtras().getString("KEY_VENDOR");
             String KEY_VENDOR_ICON = intent.getExtras().getString("KEY_VENDOR_ICON");
-            int KEY_CART_Q = intent.getExtras().getInt("KEY_CART_Q");
+            String KEY_CART_Q = intent.getExtras().getString("KEY_CART_Q") + "";
 
             ModelItemList mil = new ModelItemList(KEY_ID, KEY_ITEM_ID, KEY_NAME, KEY_PRICE, KEY_PRICE_D, KEY_QUANTITY, KEY_ICON, KEY_VENDOR, KEY_VENDOR_ICON, KEY_CART_Q);
 
 
+            if (db.getAllContacts().size() > 0){
+                for (int i=0; i<db.getAllContacts().size(); i++){
+                    if (db.getAllContacts().get(i).getId().equals(KEY_ID)){
+                        if (KEY_CART_Q.equals("0")){
+                            db.deleteContact(KEY_ID);
+                        } else {
+                            db.updateCartQ(KEY_ID, KEY_CART_Q);
+                        }
+                    } else {
+                        db.addContact(mil);
+                    }
+                }
+            } else {
+                db.addContact(mil);
+            }
+
+            for (int j=0; j<db.getAllContacts().size(); j++){
+                Log.d("SAIM LOG", db.getAllContacts().get(j).getCartQ()+"");
+            }
         }
     };
 
@@ -204,20 +223,5 @@ public class ShopItemList extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         unregisterReceiver(StopService);
-    }
-
-
-    public void saveArrayList(ArrayList<ModelItemList> list){
-        Gson gson = new Gson();
-        String json = gson.toJson(list);
-
-        new SharedPrefDatabase(getApplicationContext()).StoreCartList(json);
-    }
-
-    public ArrayList<ModelItemList> getArrayList(){
-        Gson gson = new Gson();
-        String json = new SharedPrefDatabase(getApplicationContext()).RetriveCartList();
-        Type type = new TypeToken<ArrayList<ModelItemList>>() {}.getType();
-        return gson.fromJson(json, type);
     }
 }

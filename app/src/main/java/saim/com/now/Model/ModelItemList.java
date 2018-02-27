@@ -5,8 +5,7 @@ package saim.com.now.Model;
  */
 
 public class ModelItemList {
-    public String id, item_id, item_name, item_price, item_d_price, item_quantity, item_icon, item_vendor, item_vendor_icon;
-    public int cartQ;
+    public String id, item_id, item_name, item_price, item_d_price, item_quantity, item_icon, item_vendor, item_vendor_icon, cartQ;
 
     public ModelItemList(String id, String item_id, String item_name, String item_price, String item_d_price, String item_quantity, String item_icon, String item_vendor) {
         this.id = id;
@@ -31,7 +30,7 @@ public class ModelItemList {
         this.item_vendor_icon = item_vendor_icon;
     }
 
-    public ModelItemList(String id, String item_id, String item_name, String item_price, String item_d_price, String item_quantity, String item_icon, String item_vendor, String item_vendor_icon, int cartQ) {
+    public ModelItemList(String id, String item_id, String item_name, String item_price, String item_d_price, String item_quantity, String item_icon, String item_vendor, String item_vendor_icon, String cartQ) {
         this.id = id;
         this.item_id = item_id;
         this.item_name = item_name;
@@ -44,7 +43,7 @@ public class ModelItemList {
         this.cartQ = cartQ;
     }
 
-    public int getCartQ() {
+    public String getCartQ() {
         return cartQ;
     }
 

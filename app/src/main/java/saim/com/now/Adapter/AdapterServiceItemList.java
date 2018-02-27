@@ -17,6 +17,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
+import saim.com.now.Database.DatabaseHandler;
 import saim.com.now.Model.ModelItemList;
 import saim.com.now.Model.ModelShopMenu;
 import saim.com.now.R;
@@ -70,6 +71,18 @@ public class AdapterServiceItemList extends RecyclerView.Adapter<AdapterServiceI
         holder.listPrice.setText(adapterList.get(position).getItem_price() + "tk");
         holder.listPriceD.setText(adapterList.get(position).getItem_d_price() + "tk");
 
+        DatabaseHandler db = new DatabaseHandler(holder.listItemQ.getContext());
+        if (db.getAllContacts().size() > 0){
+            for (int i=0; i<db.getAllContacts().size(); i++){
+                if (db.getAllContacts().get(i).getId().equals(adapterList.get(position).getId())){
+                    holder.listItemQ.setVisibility(View.VISIBLE);
+                    holder.listItemQ.setText(db.getAllContacts().get(i).getCartQ() + "");
+                    holder.imgButtonSubtract.setVisibility(View.VISIBLE);
+                }
+            }
+        }
+
+
     }
 
     @Override
@@ -98,8 +111,7 @@ public class AdapterServiceItemList extends RecyclerView.Adapter<AdapterServiceI
             listPrice.setPaintFlags(listPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
             listPriceD = (TextView) itemView.findViewById(R.id.listPriceD);
             listItemQ = (TextView) itemView.findViewById(R.id.listItemQ);
-
-            itemQ = Integer.parseInt(listItemQ.getText().toString());
+            
             if (itemQ > 0){
                 listItemQ.setVisibility(View.VISIBLE);
                 imgButtonSubtract.setVisibility(View.VISIBLE);
@@ -114,6 +126,9 @@ public class AdapterServiceItemList extends RecyclerView.Adapter<AdapterServiceI
             imgButtonAdd.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    itemQ = Integer.parseInt(listItemQ.getText().toString());
+                    itemQ++;
+
                     Intent intent = new Intent("com.moodybugs.banglamusic.StopService");
                     intent.putExtra("KEY_ID", adapterList.get(getAdapterPosition()).getId());
                     intent.putExtra("KEY_ITEM_ID", adapterList.get(getAdapterPosition()).getItem_id());
@@ -124,7 +139,7 @@ public class AdapterServiceItemList extends RecyclerView.Adapter<AdapterServiceI
                     intent.putExtra("KEY_ICON", adapterList.get(getAdapterPosition()).getItem_icon());
                     intent.putExtra("KEY_VENDOR", adapterList.get(getAdapterPosition()).getItem_vendor());
                     intent.putExtra("KEY_VENDOR_ICON", adapterList.get(getAdapterPosition()).getItem_vendor_icon());
-                    intent.putExtra("KEY_CART_Q", itemQ++);
+                    intent.putExtra("KEY_CART_Q", itemQ + "");
 
                     listItemQ.setVisibility(View.VISIBLE);
                     listItemQ.setText(itemQ + "");
@@ -137,6 +152,9 @@ public class AdapterServiceItemList extends RecyclerView.Adapter<AdapterServiceI
             imgButtonSubtract.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    itemQ = Integer.parseInt(listItemQ.getText().toString());
+                    itemQ--;
+
                     Intent intent = new Intent("com.moodybugs.banglamusic.StopService");
                     intent.putExtra("KEY_ID", adapterList.get(getAdapterPosition()).getId());
                     intent.putExtra("KEY_ITEM_ID", adapterList.get(getAdapterPosition()).getItem_id());
@@ -147,7 +165,7 @@ public class AdapterServiceItemList extends RecyclerView.Adapter<AdapterServiceI
                     intent.putExtra("KEY_ICON", adapterList.get(getAdapterPosition()).getItem_icon());
                     intent.putExtra("KEY_VENDOR", adapterList.get(getAdapterPosition()).getItem_vendor());
                     intent.putExtra("KEY_VENDOR_ICON", adapterList.get(getAdapterPosition()).getItem_vendor_icon());
-                    intent.putExtra("KEY_CART_Q", itemQ--);
+                    intent.putExtra("KEY_CART_Q", itemQ + "");
 
                     listItemQ.setVisibility(View.VISIBLE);
                     listItemQ.setText(itemQ + "");

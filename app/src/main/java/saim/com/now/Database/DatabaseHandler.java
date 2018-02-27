@@ -34,7 +34,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private static final String KEY_ICON = "item_icon";
     private static final String KEY_VENDOR = "item_vendor";
     private static final String KEY_VENDOR_ICON = "item_vendor_icon";
-    private static final String KEY_CART_Q = "cartQ";
+    private static final String KEY_CART_Q = "cart_q";
 
     public DatabaseHandler(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -53,7 +53,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 + KEY_ICON + " TEXT,"
                 + KEY_VENDOR + " TEXT,"
                 + KEY_VENDOR_ICON + " TEXT,"
-                + KEY_CART_Q + " INTEGER" + ")";
+                + KEY_CART_Q + " TEXT" + ")";
         db.execSQL(CREATE_CONTACTS_TABLE);
     }
 
@@ -89,14 +89,13 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         db.close();
     }
 
-    public int updateCartQ(int c) {
+    public void updateCartQ(String id, String value) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put(KEY_CART_Q, c);
+        values.put(KEY_CART_Q, value);
 
-        // updating row
-        return db.update(TABLE_ITEM, values, KEY_ID + " = ?", new String[] { String.valueOf(c) });
+        db.update(TABLE_ITEM, values, KEY_ID + " = ?", new String[] { String.valueOf(id) });
     }
 
     // Getting single contact
@@ -112,7 +111,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         ModelItemList modelItemList = new ModelItemList(cursor.getString(0),
                 cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4),
                 cursor.getString(5), cursor.getString(6), cursor.getString(7), cursor.getString(8),
-                Integer.parseInt(cursor.getString(9)) );
+                cursor.getString(9) );
 
         // return contact
         return modelItemList;
@@ -132,7 +131,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 ModelItemList modelItemList = new ModelItemList(cursor.getString(0),
                         cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4),
                         cursor.getString(5), cursor.getString(6), cursor.getString(7), cursor.getString(8),
-                        Integer.parseInt(cursor.getString(9)) );
+                        cursor.getString(9) );
                 // Adding contact to list
                 modelItemLists.add(modelItemList);
             } while (cursor.moveToNext());
@@ -154,9 +153,9 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     }
 
     // Deleting single contact
-    public void deleteContact(ModelItemList itemList) {
+    public void deleteContact(String id) {
         SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(TABLE_ITEM, KEY_ID + " = ?", new String[] { String.valueOf(itemList.getId()) });
+        db.delete(TABLE_ITEM, KEY_ID + " = ?", new String[] { String.valueOf(id) });
         db.close();
     }
 

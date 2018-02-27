@@ -84,19 +84,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         init();
-
-        String s = "[{\" delivered \":\" 1\"}, {\"delivered \":\" 11\"},{\"delivered \":\" 19\"}]";
-        try {
-            JSONArray jsonArray = new JSONArray(s);
-            for (int i=0; i<jsonArray.length(); i++){
-                JSONObject jsonObject = jsonArray.getJSONObject(i);
-                String delivered = jsonObject.getString(" delivered ").trim();
-                int deliveredInt = Integer.parseInt(delivered);
-                Log.d("DELIVERD INT", deliveredInt + "");
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
     }
 
     public void init(){
