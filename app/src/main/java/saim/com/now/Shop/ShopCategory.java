@@ -1,5 +1,6 @@
 package saim.com.now.Shop;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -139,6 +140,8 @@ public class ShopCategory extends AppCompatActivity {
         if (id == android.R.id.home) {
             onBackPressed();
             return true;
+        } else if(id == R.id.btnOptionShopCart) {
+            startActivity(new Intent(getApplicationContext(), ShopCartList.class));
         }
 
         return super.onOptionsItemSelected(item);

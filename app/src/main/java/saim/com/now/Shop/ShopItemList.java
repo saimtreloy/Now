@@ -184,6 +184,9 @@ public class ShopItemList extends AppCompatActivity {
         if (id == android.R.id.home) {
             onBackPressed();
             return true;
+        } else if(id == R.id.btnOptionShopCart) {
+            finish();
+            startActivity(new Intent(getApplicationContext(), ShopCartList.class));
         }
 
         return super.onOptionsItemSelected(item);

@@ -10,17 +10,33 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
+import saim.com.now.Adapter.AdapterServiceItemList;
 import saim.com.now.Database.DatabaseHandler;
 import saim.com.now.Model.ModelItemList;
 import saim.com.now.R;
+import saim.com.now.Utilities.ApiURL;
+import saim.com.now.Utilities.MySingleton;
 
 public class ShopCartList extends AppCompatActivity {
 
@@ -50,7 +66,7 @@ public class ShopCartList extends AppCompatActivity {
     private void init() {
         toolbar = (Toolbar) findViewById(R.id.toolbarHome);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle(getIntent().getExtras().getString("title"));
+        getSupportActionBar().setTitle("My Cart");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         progressBar = findViewById(R.id.progressBar);
@@ -72,7 +88,16 @@ public class ShopCartList extends AppCompatActivity {
         } else {
             layoutPlaceOrder.setVisibility(View.GONE);
         }
+
+        ServiceShopItemList();
     }
+
+
+    public void ServiceShopItemList(){
+        serviceItemListAdapter = new AdapterServiceItemList(db.getAllContacts());
+        recyclerViewServiceItemList.setAdapter(serviceItemListAdapter);
+    }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -81,6 +106,8 @@ public class ShopCartList extends AppCompatActivity {
         if (id == android.R.id.home) {
             onBackPressed();
             return true;
+        } else if(id == R.id.btnOptionShopCart) {
+            startActivity(new Intent(getApplicationContext(), ShopCartList.class));
         }
 
         return super.onOptionsItemSelected(item);

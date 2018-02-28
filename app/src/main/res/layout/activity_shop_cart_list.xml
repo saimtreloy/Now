@@ -53,7 +53,10 @@
             android:orientation="vertical"
             android:gravity="center"
             android:background="@color/colorAccent"
-            android:padding="16dp">
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -78,14 +81,19 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textStyle="bold"
+                    android:layout_weight="1"
                     android:text=" tk"/>
+
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@android:drawable/ic_menu_send"
+                    android:tint="#FFFFFF"/>
 
             </LinearLayout>
 
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Palce Order"/>
+
 
         </LinearLayout>
 
