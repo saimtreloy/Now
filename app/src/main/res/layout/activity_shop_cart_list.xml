@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="saim.com.now.Shop.ShopItemList">
+    tools:context="saim.com.now.Shop.ShopCartList">
 
     <android.support.v7.widget.Toolbar
         xmlns:android="http://schemas.android.com/apk/res/android"
@@ -22,48 +22,17 @@
         app:contentInsetStart="0dp"
         app:contentInsetStartWithNavigation="0dp" />
 
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@android:color/white"
         android:layout_below="@id/toolbarHome">
 
-        <LinearLayout
-            android:id="@+id/layoutPlaceOrder"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="gone"
-            android:background="@color/colorAccent"
-            android:padding="16dp">
-
-            <TextView
-                android:layout_weight="1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Your total order price : "
-                android:textStyle="italic"/>
-
-            <TextView
-                android:id="@+id/txtTotalPrice"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textStyle="bold"
-                android:text="1000"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textStyle="bold"
-                android:text=" tk"/>
-
-        </LinearLayout>
-
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerViewServiceItemList"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@id/layoutPlaceOrder"
+            android:layout_above="@id/layoutPlaceOrder"
             android:layout_gravity="center_horizontal">
 
         </android.support.v7.widget.RecyclerView>
@@ -74,6 +43,53 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:visibility="gone"/>
+
+        <LinearLayout
+            android:id="@+id/layoutPlaceOrder"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:visibility="visible"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:background="@color/colorAccent"
+            android:padding="16dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Your total order price : "
+                    android:textStyle="italic"/>
+
+                <TextView
+                    android:id="@+id/txtTotalPrice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:text="1000"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:text=" tk"/>
+
+            </LinearLayout>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Palce Order"/>
+
+        </LinearLayout>
+
+
 
     </RelativeLayout>
 

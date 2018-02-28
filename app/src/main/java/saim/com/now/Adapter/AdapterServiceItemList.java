@@ -111,7 +111,7 @@ public class AdapterServiceItemList extends RecyclerView.Adapter<AdapterServiceI
             listPrice.setPaintFlags(listPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
             listPriceD = (TextView) itemView.findViewById(R.id.listPriceD);
             listItemQ = (TextView) itemView.findViewById(R.id.listItemQ);
-            
+
             if (itemQ > 0){
                 listItemQ.setVisibility(View.VISIBLE);
                 imgButtonSubtract.setVisibility(View.VISIBLE);

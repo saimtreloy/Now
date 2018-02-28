@@ -23,7 +23,8 @@
         <activity android:name=".Shop.ShopHome" />
         <activity android:name=".Shop.ShopCategory" />
         <activity android:name=".Shop.ShopItemList" />
-        <activity android:name=".Shop.ShopVendor"></activity>
+        <activity android:name=".Shop.ShopVendor" />
+        <activity android:name=".Shop.ShopCartList"></activity>
     </application>
 
 </manifest>
