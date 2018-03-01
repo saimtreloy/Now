@@ -66,7 +66,7 @@ public class ShopCartList extends AppCompatActivity {
     private void init() {
         toolbar = (Toolbar) findViewById(R.id.toolbarHome);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("My Cart");
+        getSupportActionBar().setTitle("My Shopping Bag");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         progressBar = findViewById(R.id.progressBar);

@@ -4,6 +4,7 @@ import android.annotation.TargetApi;
 import android.app.ActivityOptions;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -354,7 +355,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void populateSpinnerLocation(ArrayList<String> locationList) {
 
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getApplicationContext(),android.R.layout.simple_list_item_1, locationList);
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getApplicationContext(),R.layout.spinner_item, locationList);
         spinnerLocation.setAdapter(arrayAdapter);
 
         btnLocation.setOnClickListener(new View.OnClickListener() {
