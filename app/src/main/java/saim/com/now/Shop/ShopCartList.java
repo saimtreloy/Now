@@ -47,8 +47,10 @@ public class ShopCartList extends AppCompatActivity {
     RecyclerView.LayoutManager layoutManagerServiceShopList;
     RecyclerView.Adapter serviceItemListAdapter;
 
+    int deliveryCost = 0;
+
     LinearLayout layoutPlaceOrder;
-    TextView txtTotalPrice;
+    TextView txtTotalPrice, txtDeliveryPrice, txtAllTotalPrice, txtPlaceOrder;
 
     ProgressBar progressBar;
 
@@ -79,17 +81,69 @@ public class ShopCartList extends AppCompatActivity {
 
         layoutPlaceOrder = (LinearLayout) findViewById(R.id.layoutPlaceOrder);
         txtTotalPrice = (TextView) findViewById(R.id.txtTotalPrice);
+        txtDeliveryPrice = (TextView) findViewById(R.id.txtDeliveryPrice);
+        txtAllTotalPrice = (TextView) findViewById(R.id.txtAllTotalPrice);
+        txtPlaceOrder = (TextView) findViewById(R.id.txtPlaceOrder);
 
         db = new DatabaseHandler(this);
         if (db.getAllContacts().size()>0){
             layoutPlaceOrder.setVisibility(View.VISIBLE);
-            layoutPlaceOrder.setVisibility(View.VISIBLE);
-            txtTotalPrice.setText(db.getTotalPrice() + "");
+            if (db.getTotalPrice() <1000) {
+                deliveryCost = 29;
+                txtDeliveryPrice.setText(deliveryCost + "");
+            } else {
+                deliveryCost = 10;
+                txtDeliveryPrice.setText(deliveryCost + "");
+            }
+            txtTotalPrice.setText(db.getTotalPrice()+"");
+            txtAllTotalPrice.setText((db.getTotalPrice() + deliveryCost) +"");
         } else {
             layoutPlaceOrder.setVisibility(View.GONE);
         }
 
         ServiceShopItemList();
+
+
+        txtPlaceOrder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String placeOrder = "";
+                String spaceBlack = "";
+                for (int i=0; i<db.getAllContacts().size(); i++){
+                    int l = db.getAllContacts().get(i).getItem_name().length();
+                    int ml = 40 - l;
+                    for (int j=0; j<ml; j++){
+                        spaceBlack = spaceBlack + " ";
+                    }
+                    placeOrder = placeOrder + db.getAllContacts().get(i).getItem_name() + spaceBlack + db.getAllContacts().get(i).getItem_d_price() + " tk\n";
+                    spaceBlack = "";
+                }
+                for (int i=0; i<50;i++){
+                    placeOrder = placeOrder + "-";
+                }
+                placeOrder = placeOrder + "\n" + "Subtotal Price";
+                for (int i=0; i<(40 - "Subtotal Price".length());i++){
+                    placeOrder = placeOrder + " ";
+                }
+                placeOrder = placeOrder + db.getTotalPrice() + " tk\n";
+
+                placeOrder = placeOrder + "Delivery Cost";
+                for (int i=0; i<(40 - "Delivery Cost".length());i++){
+                    placeOrder = placeOrder + " ";
+                }
+                placeOrder = placeOrder + txtDeliveryPrice.getText().toString() + " tk\n";
+
+                for (int i=0; i<50;i++){
+                    placeOrder = placeOrder + "-";
+                }
+                placeOrder = placeOrder + "\n" + "Main Total Price";
+                for (int i=0; i<(40 - "Main Total Price".length());i++){
+                    placeOrder = placeOrder + " ";
+                }
+                placeOrder = placeOrder + txtAllTotalPrice.getText().toString() + " tk\n";
+                Log.d("PLACE ORDER SAIM", placeOrder);
+            }
+        });
     }
 
 
@@ -149,8 +203,15 @@ public class ShopCartList extends AppCompatActivity {
 
             if (db.getAllContacts().size()>0){
                 layoutPlaceOrder.setVisibility(View.VISIBLE);
-                layoutPlaceOrder.setVisibility(View.VISIBLE);
+                if (db.getTotalPrice() <1000) {
+                    deliveryCost = 29;
+                    txtDeliveryPrice.setText(deliveryCost + "");
+                } else {
+                    deliveryCost = 10;
+                    txtDeliveryPrice.setText(deliveryCost + "");
+                }
                 txtTotalPrice.setText(db.getTotalPrice()+"");
+                txtAllTotalPrice.setText((db.getTotalPrice() + deliveryCost) +"");
             } else {
                 layoutPlaceOrder.setVisibility(View.GONE);
             }
