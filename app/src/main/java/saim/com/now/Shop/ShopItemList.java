@@ -256,4 +256,19 @@ public class ShopItemList extends AppCompatActivity {
         super.onDestroy();
         unregisterReceiver(StopService);
     }
+
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+
+        db = new DatabaseHandler(this);
+        if (db.getAllContacts().size()>0){
+            layoutPlaceOrder.setVisibility(View.VISIBLE);
+            layoutPlaceOrder.setVisibility(View.VISIBLE);
+            txtTotalPrice.setText(db.getTotalPrice() + "");
+        } else {
+            layoutPlaceOrder.setVisibility(View.GONE);
+        }
+    }
 }

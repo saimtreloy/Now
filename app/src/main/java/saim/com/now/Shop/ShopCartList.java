@@ -1,5 +1,6 @@
 package saim.com.now.Shop;
 
+import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -31,7 +32,13 @@ import com.android.volley.toolbox.StringRequest;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -59,6 +66,7 @@ public class ShopCartList extends AppCompatActivity {
     TextView txtTotalPrice, txtDeliveryPrice, txtAllTotalPrice, txtPlaceOrder;
 
     ProgressBar progressBar;
+    ProgressDialog progressDialog;
 
     //Database
     public DatabaseHandler db;
@@ -78,6 +86,9 @@ public class ShopCartList extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         progressBar = findViewById(R.id.progressBar);
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Please wait...");
+        progressDialog.setCanceledOnTouchOutside(false);
 
         recyclerViewServiceItemList = (RecyclerView) findViewById(R.id.recyclerViewServiceItemList);
         GridLayoutManager manager = new GridLayoutManager(this, 3, GridLayoutManager.VERTICAL, false);
@@ -154,7 +165,10 @@ public class ShopCartList extends AppCompatActivity {
                     Log.d("PLACE ORDER SAIM", placeOrder);
 
 
-                    showPlaceOrderDialog();
+                    showPlaceOrderDialog(new SharedPrefDatabase(getApplicationContext()).RetriveUserName(),
+                            new SharedPrefDatabase(getApplicationContext()).RetriveUserMobile(),
+                            new SharedPrefDatabase(getApplicationContext()).RetriveUserLocation(),
+                            placeOrder);
                 }
             }
         });
@@ -246,7 +260,7 @@ public class ShopCartList extends AppCompatActivity {
     }
 
 
-    public void showPlaceOrderDialog() {
+    public void showPlaceOrderDialog(String name, String phone, String area, final String orderDetail) {
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
         LayoutInflater inflater = this.getLayoutInflater();
         final View dialogView = inflater.inflate(R.layout.dialog_shop_placeorder, null);
@@ -257,12 +271,25 @@ public class ShopCartList extends AppCompatActivity {
         final EditText txtDArea = (EditText) dialogView.findViewById(R.id.txtDArea);
         final EditText txtDAddress = (EditText) dialogView.findViewById(R.id.txtDAddress);
 
+        txtDName.setText(name);
+        txtDPhone.setText(phone);
+        txtDArea.setText(area);
+
         dialogBuilder.setTitle("Place your order");
         dialogBuilder.setIcon(R.drawable.ic_place);
         dialogBuilder.setMessage("Please provide your address");
         dialogBuilder.setPositiveButton("Submit", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
-
+                PlaceOrderFinal(new SharedPrefDatabase(getApplicationContext()).RetriveUserID(),
+                        new SharedPrefDatabase(getApplicationContext()).RetriveUserName(),
+                        new SharedPrefDatabase(getApplicationContext()).RetriveUserMobile(),
+                        new SharedPrefDatabase(getApplicationContext()).RetriveUserShopvendor(),
+                        txtDAddress.getText().toString() + "\n" +
+                        new SharedPrefDatabase(getApplicationContext()).RetriveUserLocation(),
+                        getCurrentDateTime(),
+                        orderDetail,
+                        "Text",
+                        "Pending");
             }
         });
         dialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -273,5 +300,93 @@ public class ShopCartList extends AppCompatActivity {
         AlertDialog b = dialogBuilder.create();
         b.setCanceledOnTouchOutside(false);
         b.show();
+    }
+
+
+    public void PlaceOrderFinal(final String order_user_id, final String order_user_name, final String order_user_phone, final String order_vendor_id
+            , final String order_user_location, final String order_time, final String order_detail, final String order_type, final String order_status){
+
+        progressDialog.show();
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, ApiURL.Service_Shop_Place_Order,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+                        try {
+                            JSONArray jsonArray = new JSONArray(response);
+                            JSONObject jsonObject = jsonArray.getJSONObject(0);
+                            String code = jsonObject.getString("code");
+                            if (code.equals("success")){
+                                String message = jsonObject.getString("message");
+                                Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+                                db.deleteAllContact();
+                                finish();
+                                progressDialog.dismiss();
+                            }else {
+                                String message = jsonObject.getString("message");
+                                Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+                                progressDialog.dismiss();
+                            }
+                        }catch (Exception e){
+                            Log.d("HDHD 1", e.toString() + "\n" + response);
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String,String> params = new HashMap<String, String>();
+                params.put("order_user_id", order_user_id);
+                params.put("order_user_name", order_user_name);
+                params.put("order_user_phone", order_user_phone);
+                params.put("order_vendor_id", order_vendor_id);
+                params.put("order_user_location", order_user_location);
+                params.put("order_time", order_time);
+                params.put("order_detail", order_detail);
+                params.put("order_type", order_type);
+                params.put("order_status", order_status);
+
+                return params;
+            }
+        };
+        stringRequest.setShouldCache(false);
+        MySingleton.getInstance(getApplicationContext()).addToRequestQueue(stringRequest);
+    }
+
+    public String getCurrentDateTime(){
+        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+        Date date = new Date();
+
+        return formatter.format(date) + "";
+    }
+
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+
+        PopulateList();
+    }
+
+
+    public void PopulateList(){
+        if (db.getAllContacts().size()>0){
+            layoutPlaceOrder.setVisibility(View.VISIBLE);
+            if (db.getTotalPrice() <1000) {
+                deliveryCost = 29;
+                txtDeliveryPrice.setText(deliveryCost + "");
+            } else {
+                deliveryCost = 10;
+                txtDeliveryPrice.setText(deliveryCost + "");
+            }
+            txtTotalPrice.setText(db.getTotalPrice()+"");
+            txtAllTotalPrice.setText((db.getTotalPrice() + deliveryCost) +"");
+        } else {
+            layoutPlaceOrder.setVisibility(View.GONE);
+        }
     }
 }

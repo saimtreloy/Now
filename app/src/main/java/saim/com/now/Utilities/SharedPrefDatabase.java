@@ -22,6 +22,7 @@ public class SharedPrefDatabase {
     public static final String USER_MOBILE = "USER_MOBILE";
     public static final String USER_PASS = "USER_PASS";
     public static final String USER_IMAGE = "USER_IMAGE";
+    public static final String USER_SHOP_VENDOR = "USER_SHOP_VENDOR";
 
 
     SharedPreferences sharedPreferences;
@@ -95,6 +96,16 @@ public class SharedPrefDatabase {
     }
     public String RetriveUserImage(){
         String text = sharedPreferences.getString(USER_IMAGE, null);
+        return text;
+    }
+
+
+    public void StoreUserShopVendor(String data){
+        editor.putString(USER_SHOP_VENDOR, data);
+        editor.commit();
+    }
+    public String RetriveUserShopvendor(){
+        String text = sharedPreferences.getString(USER_SHOP_VENDOR, null);
         return text;
     }
 }
