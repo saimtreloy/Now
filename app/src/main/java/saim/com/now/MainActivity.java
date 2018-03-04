@@ -94,29 +94,28 @@ public class MainActivity extends AppCompatActivity {
 
         progressBar = findViewById(R.id.progressBar);
 
-        drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
-        actionBarDrawerToggle = new android.support.v7.app.ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.drawer_open, R.string.drawer_close) {
-            @Override
-            public void onDrawerOpened(View drawerView) {
-                Log.d("SAIM DRAWER", "Nav drawer opend");
-                super.onDrawerOpened(drawerView);
-            }
-        };
+        if (new SharedPrefDatabase(getApplicationContext()).RetriveUserID().isEmpty() || new SharedPrefDatabase(getApplicationContext()).RetriveUserID()==null) {
 
-        actionBarDrawerToggle.setDrawerIndicatorEnabled(true);
-        drawerLayout.addDrawerListener(actionBarDrawerToggle);
-        actionBarDrawerToggle.syncState();
+        } else {
+            drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
+            actionBarDrawerToggle = new android.support.v7.app.ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.drawer_open, R.string.drawer_close) {
+                @Override
+                public void onDrawerOpened(View drawerView) {
+                    Log.d("SAIM DRAWER", "Nav drawer opend");
+                    super.onDrawerOpened(drawerView);
+                }
+            };
 
-        NavigationItemClicked();
+            actionBarDrawerToggle.setDrawerIndicatorEnabled(true);
+            drawerLayout.addDrawerListener(actionBarDrawerToggle);
+            actionBarDrawerToggle.syncState();
+
+            NavigationItemClicked();
+        }
+
 
 
         recyclerViewServiceList = (RecyclerView) findViewById(R.id.recyclerViewServiceList);
-        //layoutManagerServiceList = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false);
-        //recyclerViewServiceList.setLayoutManager(layoutManagerServiceList);
-
-        //AutoFitGridLayoutManager layoutManager = new AutoFitGridLayoutManager(this, 333);
-        //recyclerViewServiceList.setLayoutManager(layoutManager);
-
         GridLayoutManager manager = new GridLayoutManager(this, 3, GridLayoutManager.VERTICAL, false);
         recyclerViewServiceList.setLayoutManager(manager);
         recyclerViewServiceList.setHasFixedSize(true);
@@ -140,6 +139,8 @@ public class MainActivity extends AppCompatActivity {
         TextView txtNavName = (TextView) headerView.findViewById(R.id.txtNavName);
         TextView txtNavEmail = (TextView) headerView.findViewById(R.id.txtNavEmail);
         TextView txtNavRate = (TextView) headerView.findViewById(R.id.txtNavRate);
+
+
 
         Picasso.with(getApplicationContext())
                 .load(new SharedPrefDatabase(getApplicationContext()).RetriveUserImage())
@@ -191,6 +192,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case android.R.id.home:
+                AlertClose();
             case R.id.btnOptionTC:
                 return true;
             case R.id.btnOptionPP:
@@ -234,7 +237,7 @@ public class MainActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int id) {
                         Login.modelMainUsersArrayList.clear();
                         ClearUserData("", "", "", "", "", "");
-                        startActivity(new Intent(getApplicationContext(), Login.class));
+                        startActivity(new Intent(getApplicationContext(), MainActivity.class));
                         finish();
                     }
                 })
@@ -395,4 +398,29 @@ public class MainActivity extends AppCompatActivity {
         infoDialog.show();
     }
 
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+
+
+        if (new SharedPrefDatabase(getApplicationContext()).RetriveUserID().isEmpty() || new SharedPrefDatabase(getApplicationContext()).RetriveUserID()==null) {
+
+        } else {
+            drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
+            actionBarDrawerToggle = new android.support.v7.app.ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.drawer_open, R.string.drawer_close) {
+                @Override
+                public void onDrawerOpened(View drawerView) {
+                    Log.d("SAIM DRAWER", "Nav drawer opend");
+                    super.onDrawerOpened(drawerView);
+                }
+            };
+
+            actionBarDrawerToggle.setDrawerIndicatorEnabled(true);
+            drawerLayout.addDrawerListener(actionBarDrawerToggle);
+            actionBarDrawerToggle.syncState();
+
+            NavigationItemClicked();
+        }
+    }
 }

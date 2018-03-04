@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="26dp"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:text="Name : "
+            android:textAlignment="textEnd"
+            android:textSize="12sp"/>
+
+        <EditText
+            android:id="@+id/txtDName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter your name"
+            android:singleLine="true"
+            android:textSize="12sp"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:text="Phone : "
+            android:textAlignment="textEnd"
+            android:textSize="12sp"/>
+
+        <EditText
+            android:id="@+id/txtDPhone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="e.g +8801711415554"
+            android:inputType="phone"
+            android:singleLine="true"
+            android:textSize="12sp"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:text="Area : "
+            android:textAlignment="textEnd"
+            android:textSize="12sp"/>
+
+        <EditText
+            android:id="@+id/txtDArea"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="e.g Mirpur"
+            android:singleLine="true"
+            android:textSize="12sp"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:text="Address : "
+            android:textAlignment="textEnd"
+            android:textSize="12sp"/>
+
+        <EditText
+            android:id="@+id/txtDAddress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="e.g House 30, Block K.."
+            android:singleLine="true"
+            android:textSize="12sp"/>
+
+    </LinearLayout>
+
+</LinearLayout>

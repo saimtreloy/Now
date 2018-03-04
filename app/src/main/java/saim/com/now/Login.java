@@ -257,7 +257,7 @@ public class Login extends AppCompatActivity {
 
                                 StoreUserData(user_id, user_name, user_email, user_mobile, user_pass, user_image);
 
-                                startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                                //startActivity(new Intent(getApplicationContext(), MainActivity.class));
                                 finish();
                             }else {
                                 String message = jsonObject.getString("message");

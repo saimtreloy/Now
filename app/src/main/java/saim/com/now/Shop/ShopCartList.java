@@ -2,8 +2,10 @@ package saim.com.now.Shop;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -11,8 +13,10 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -33,10 +37,12 @@ import java.util.Map;
 
 import saim.com.now.Adapter.AdapterServiceItemList;
 import saim.com.now.Database.DatabaseHandler;
+import saim.com.now.Login;
 import saim.com.now.Model.ModelItemList;
 import saim.com.now.R;
 import saim.com.now.Utilities.ApiURL;
 import saim.com.now.Utilities.MySingleton;
+import saim.com.now.Utilities.SharedPrefDatabase;
 
 public class ShopCartList extends AppCompatActivity {
 
@@ -107,41 +113,49 @@ public class ShopCartList extends AppCompatActivity {
         txtPlaceOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String placeOrder = "";
-                String spaceBlack = "";
-                for (int i=0; i<db.getAllContacts().size(); i++){
-                    int l = db.getAllContacts().get(i).getItem_name().length();
-                    int ml = 40 - l;
-                    for (int j=0; j<ml; j++){
-                        spaceBlack = spaceBlack + " ";
+
+                if (new SharedPrefDatabase(getApplicationContext()).RetriveUserID().isEmpty() || new SharedPrefDatabase(getApplicationContext()).RetriveUserID()==null) {
+                    startActivity(new Intent(getApplicationContext(), Login.class));
+                } else {
+                    String placeOrder = "";
+                    String spaceBlack = "";
+                    for (int i=0; i<db.getAllContacts().size(); i++){
+                        int l = db.getAllContacts().get(i).getItem_name().length();
+                        int ml = 40 - l;
+                        for (int j=0; j<ml; j++){
+                            spaceBlack = spaceBlack + " ";
+                        }
+                        placeOrder = placeOrder + db.getAllContacts().get(i).getItem_name() + spaceBlack + db.getAllContacts().get(i).getItem_d_price() + " tk\n";
+                        spaceBlack = "";
                     }
-                    placeOrder = placeOrder + db.getAllContacts().get(i).getItem_name() + spaceBlack + db.getAllContacts().get(i).getItem_d_price() + " tk\n";
-                    spaceBlack = "";
-                }
-                for (int i=0; i<50;i++){
-                    placeOrder = placeOrder + "-";
-                }
-                placeOrder = placeOrder + "\n" + "Subtotal Price";
-                for (int i=0; i<(40 - "Subtotal Price".length());i++){
-                    placeOrder = placeOrder + " ";
-                }
-                placeOrder = placeOrder + db.getTotalPrice() + " tk\n";
+                    for (int i=0; i<50;i++){
+                        placeOrder = placeOrder + "-";
+                    }
+                    placeOrder = placeOrder + "\n" + "Subtotal Price";
+                    for (int i=0; i<(40 - "Subtotal Price".length());i++){
+                        placeOrder = placeOrder + " ";
+                    }
+                    placeOrder = placeOrder + db.getTotalPrice() + " tk\n";
 
-                placeOrder = placeOrder + "Delivery Cost";
-                for (int i=0; i<(40 - "Delivery Cost".length());i++){
-                    placeOrder = placeOrder + " ";
-                }
-                placeOrder = placeOrder + txtDeliveryPrice.getText().toString() + " tk\n";
+                    placeOrder = placeOrder + "Delivery Cost";
+                    for (int i=0; i<(40 - "Delivery Cost".length());i++){
+                        placeOrder = placeOrder + " ";
+                    }
+                    placeOrder = placeOrder + txtDeliveryPrice.getText().toString() + " tk\n";
 
-                for (int i=0; i<50;i++){
-                    placeOrder = placeOrder + "-";
+                    for (int i=0; i<50;i++){
+                        placeOrder = placeOrder + "-";
+                    }
+                    placeOrder = placeOrder + "\n" + "Main Total Price";
+                    for (int i=0; i<(40 - "Main Total Price".length());i++){
+                        placeOrder = placeOrder + " ";
+                    }
+                    placeOrder = placeOrder + txtAllTotalPrice.getText().toString() + " tk\n";
+                    Log.d("PLACE ORDER SAIM", placeOrder);
+
+
+                    showPlaceOrderDialog();
                 }
-                placeOrder = placeOrder + "\n" + "Main Total Price";
-                for (int i=0; i<(40 - "Main Total Price".length());i++){
-                    placeOrder = placeOrder + " ";
-                }
-                placeOrder = placeOrder + txtAllTotalPrice.getText().toString() + " tk\n";
-                Log.d("PLACE ORDER SAIM", placeOrder);
             }
         });
     }
@@ -229,5 +243,35 @@ public class ShopCartList extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         unregisterReceiver(StopService);
+    }
+
+
+    public void showPlaceOrderDialog() {
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = this.getLayoutInflater();
+        final View dialogView = inflater.inflate(R.layout.dialog_shop_placeorder, null);
+        dialogBuilder.setView(dialogView);
+
+        final EditText txtDName = (EditText) dialogView.findViewById(R.id.txtDName);
+        final EditText txtDPhone = (EditText) dialogView.findViewById(R.id.txtDPhone);
+        final EditText txtDArea = (EditText) dialogView.findViewById(R.id.txtDArea);
+        final EditText txtDAddress = (EditText) dialogView.findViewById(R.id.txtDAddress);
+
+        dialogBuilder.setTitle("Place your order");
+        dialogBuilder.setIcon(R.drawable.ic_place);
+        dialogBuilder.setMessage("Please provide your address");
+        dialogBuilder.setPositiveButton("Submit", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+
+            }
+        });
+        dialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                dialog.dismiss();
+            }
+        });
+        AlertDialog b = dialogBuilder.create();
+        b.setCanceledOnTouchOutside(false);
+        b.show();
     }
 }

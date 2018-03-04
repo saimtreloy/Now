@@ -105,6 +105,14 @@ public class ShopItemList extends AppCompatActivity {
         } else {
             layoutPlaceOrder.setVisibility(View.GONE);
         }
+
+
+        layoutPlaceOrder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), ShopCartList.class));
+            }
+        });
     }
 
 

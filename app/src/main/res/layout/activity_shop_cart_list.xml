@@ -68,7 +68,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Subtotal price"
-                    android:textSize="10sp"
+                    android:textSize="12sp"
                     android:textStyle="italic"/>
 
                 <TextView
@@ -76,14 +76,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textStyle="bold"
-                    android:textSize="10sp"
+                    android:textSize="12sp"
                     android:text="1000"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textStyle="bold"
-                    android:textSize="10sp"
+                    android:textSize="12sp"
                     android:text=" tk"/>
 
             </LinearLayout>
@@ -102,7 +102,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Delivery cost"
-                    android:textSize="10sp"
+                    android:textSize="12sp"
                     android:textStyle="italic"/>
 
                 <TextView
@@ -110,14 +110,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textStyle="bold"
-                    android:textSize="10sp"
+                    android:textSize="12sp"
                     android:text="1000"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textStyle="bold"
-                    android:textSize="10sp"
+                    android:textSize="12sp"
                     android:text=" tk"/>
 
             </LinearLayout>
@@ -135,6 +135,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Place Order"
+                    android:gravity="center_vertical"
+                    android:drawableLeft="@android:drawable/ic_menu_send"
                     android:textSize="16dp"
                     android:textStyle="bold"
                     android:paddingLeft="12dp"
