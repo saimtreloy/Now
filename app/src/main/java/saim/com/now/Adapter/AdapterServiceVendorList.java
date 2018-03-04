@@ -17,6 +17,7 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 
 import saim.com.now.Database.DatabaseHandler;
+import saim.com.now.Login;
 import saim.com.now.Model.ModelShopMenu;
 import saim.com.now.Model.ModelShopVendor;
 import saim.com.now.R;
@@ -85,18 +86,21 @@ public class AdapterServiceVendorList extends RecyclerView.Adapter<AdapterServic
 
         @Override
         public void onClick(View v) {
-
-            if (!new SharedPrefDatabase(v.getContext()).RetriveUserShopvendor().isEmpty() || new SharedPrefDatabase(v.getContext()).RetriveUserShopvendor() != null){
+            if (new SharedPrefDatabase(v.getContext()).RetriveUserShopvendor() == null ){
+                new SharedPrefDatabase(v.getContext()).StoreUserShopVendor("");
+            }
+            if (!new SharedPrefDatabase(v.getContext()).RetriveUserShopvendor().isEmpty() ){
                 if (!new SharedPrefDatabase(v.getContext()).RetriveUserShopvendor().equals(adapterList.get(getAdapterPosition()).getService_shop_vendor_id())){
                     DatabaseHandler databaseHandler = new DatabaseHandler(v.getContext());
                     databaseHandler.deleteAllContact();
                 }
             }
-
             Intent intent = new Intent(v.getContext(), ShopHome.class);
             intent.putExtra("VENDOR_ID", adapterList.get(getAdapterPosition()).getService_shop_vendor_id());
             new SharedPrefDatabase(v.getContext()).StoreUserShopVendor(adapterList.get(getAdapterPosition()).getService_shop_vendor_id());
             v.getContext().startActivity(intent);
+
+
         }
     }
 }

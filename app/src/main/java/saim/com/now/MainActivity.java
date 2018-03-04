@@ -94,7 +94,10 @@ public class MainActivity extends AppCompatActivity {
 
         progressBar = findViewById(R.id.progressBar);
 
-        if (new SharedPrefDatabase(getApplicationContext()).RetriveUserID().isEmpty() || new SharedPrefDatabase(getApplicationContext()).RetriveUserID()==null) {
+        if (new SharedPrefDatabase(getApplicationContext()).RetriveUserID() == null){
+            new SharedPrefDatabase(getApplicationContext()).StoreUserID("");
+        }
+        if (new SharedPrefDatabase(getApplicationContext()).RetriveUserID().isEmpty()) {
 
         } else {
             drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
