@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#EEE"
+    android:theme="@style/AppThemeBody"
+    tools:context="saim.com.now.Activity.Profile">
+
+    <android.support.v7.widget.Toolbar
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/toolbarHome"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="@color/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        android:fitsSystemWindows="true"
+        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:contentInsetEnd="0dp"
+        app:contentInsetLeft="0dp"
+        app:contentInsetRight="0dp"
+        app:contentInsetStart="0dp"
+        app:contentInsetStartWithNavigation="0dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_below="@id/toolbarHome"
+        android:visibility="visible"
+        android:gravity="center">
+
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/imgProfile"
+            android:layout_width="96dp"
+            android:layout_height="96dp"
+            android:src="@drawable/ic_placeholder"
+            app:civ_border_width="2dp"
+            android:transitionName=""
+            app:civ_border_color="@color/colorAccent"/>
+
+        <TextView
+            android:id="@+id/txtProName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Md. Mobinur Rahman"
+            android:textSize="16dp"
+            android:textStyle="bold"
+            android:gravity="center"/>
+        <TextView
+            android:id="@+id/txtProEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="streloy@gmail.com"
+            android:textColor="@color/colorAccent"
+            android:textSize="14dp"
+            android:textStyle="italic"
+            android:gravity="center"/>
+        <TextView
+            android:id="@+id/txtProMobile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="+8801711415554"
+            android:textSize="14dp"
+            android:gravity="center"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/imgProCall"
+                android:layout_width="42dp"
+                android:layout_height="42dp"
+                android:padding="10dp"
+                android:background="@drawable/ic_round_profile"
+                android:src="@drawable/ic_call"/>
+
+            <ImageView
+                android:id="@+id/imgProChangeImage"
+                android:layout_width="42dp"
+                android:layout_height="42dp"
+                android:padding="10dp"
+                android:background="@drawable/ic_round_profile"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:src="@drawable/ic_camera"/>
+
+            <ImageView
+                android:id="@+id/imgProChangePass"
+                android:layout_width="42dp"
+                android:layout_height="42dp"
+                android:padding="10dp"
+                android:background="@drawable/ic_round_profile"
+                android:layout_marginRight="16dp"
+                android:src="@drawable/ic_lock"
+                android:tint="@android:color/white"/>
+
+            <ImageView
+                android:id="@+id/imgProChangeEmail"
+                android:layout_width="42dp"
+                android:layout_height="42dp"
+                android:padding="10dp"
+                android:background="@drawable/ic_round_profile"
+                android:src="@drawable/ic_email"/>
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+</RelativeLayout>
