@@ -24,6 +24,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import saim.com.now.Adapter.AdapterServiceShopList;
@@ -35,6 +36,10 @@ import saim.com.now.R;
 import saim.com.now.Utilities.ApiURL;
 import saim.com.now.Utilities.MySingleton;
 import saim.com.now.Utilities.SharedPrefDatabase;
+import ss.com.bannerslider.banners.Banner;
+import ss.com.bannerslider.banners.RemoteBanner;
+import ss.com.bannerslider.events.OnBannerClickListener;
+import ss.com.bannerslider.views.BannerSlider;
 
 public class ShopVendor extends AppCompatActivity {
 
@@ -46,6 +51,8 @@ public class ShopVendor extends AppCompatActivity {
     RecyclerView.Adapter serviceVendorListAdapter;
 
     ProgressBar progressBar;
+
+    BannerSlider bannerSlider;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +77,21 @@ public class ShopVendor extends AppCompatActivity {
         recyclerViewServiceVendorList.setHasFixedSize(true);
 
         ServiceVendorList();
+
+        bannerSlider = (BannerSlider) findViewById(R.id.banner_slider);
+        List<Banner> banners=new ArrayList<>();
+        banners.add(new RemoteBanner("https://cdn.pixabay.com/photo/2015/10/29/14/44/sunset-1012477_960_720.jpg"));
+        banners.add(new RemoteBanner("http://wowslider.com/sliders/demo-10/data/images/autumn_leaves.jpg"));
+        banners.add(new RemoteBanner("http://wowslider.com/sliders/demo-10/data/images/dock.jpg"));
+        banners.add(new RemoteBanner("https://corporateindiamart.files.wordpress.com/2017/12/advertising-banner-100.jpg?w=980&h=344&crop=1"));
+        bannerSlider.setBanners(banners);
+
+        bannerSlider.setOnBannerClickListener(new OnBannerClickListener() {
+            @Override
+            public void onClick(int position) {
+
+            }
+        });
     }
 
 
@@ -126,7 +148,7 @@ public class ShopVendor extends AppCompatActivity {
 
                 return params;
             }
-        };;
+        };
         stringRequest.setShouldCache(false);
         MySingleton.getInstance(getApplicationContext()).addToRequestQueue(stringRequest);
     }

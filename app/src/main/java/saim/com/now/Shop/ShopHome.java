@@ -1,8 +1,8 @@
 package saim.com.now.Shop;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -22,14 +22,17 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
-import saim.com.now.Adapter.AdapterServiceList;
 import saim.com.now.Adapter.AdapterServiceShopList;
-import saim.com.now.Model.ModelServiceList;
 import saim.com.now.Model.ModelShopMenu;
 import saim.com.now.R;
 import saim.com.now.Utilities.ApiURL;
 import saim.com.now.Utilities.MySingleton;
+import ss.com.bannerslider.banners.Banner;
+import ss.com.bannerslider.banners.RemoteBanner;
+import ss.com.bannerslider.events.OnBannerClickListener;
+import ss.com.bannerslider.views.BannerSlider;
 
 public class ShopHome extends AppCompatActivity {
 
@@ -42,6 +45,7 @@ public class ShopHome extends AppCompatActivity {
     RecyclerView.Adapter serviceShopListAdapter;
 
     ProgressBar progressBar;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +71,8 @@ public class ShopHome extends AppCompatActivity {
         VENDOR_ID = getIntent().getExtras().getString("VENDOR_ID");
 
         ServiceShopList();
+
+
     }
 
 

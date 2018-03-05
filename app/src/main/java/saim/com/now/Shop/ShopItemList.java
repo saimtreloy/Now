@@ -195,6 +195,9 @@ public class ShopItemList extends AppCompatActivity {
         } else if(id == R.id.btnOptionShopCart) {
             finish();
             startActivity(new Intent(getApplicationContext(), ShopCartList.class));
+        } else if(id == R.id.btnOptionShopCamera) {
+            finish();
+            startActivity(new Intent(getApplicationContext(), ShopOrderImage.class));
         }
 
         return super.onOptionsItemSelected(item);

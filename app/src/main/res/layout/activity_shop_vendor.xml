@@ -27,11 +27,22 @@
         android:layout_height="match_parent"
         android:layout_below="@id/toolbarHome">
 
+        <ss.com.bannerslider.views.BannerSlider
+            android:id="@+id/banner_slider"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            app:interval="3000"
+            app:loopSlides="true"
+            app:defaultIndicators="dash"
+            app:defaultBanner="1"
+            app:animateIndicators="true"/>
+
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerViewServiceVendorList"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center_horizontal"
+            android:layout_below="@id/banner_slider"
             android:background="#EEE">
 
         </android.support.v7.widget.RecyclerView>
