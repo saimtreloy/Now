@@ -29,6 +29,7 @@ import com.android.volley.Response;
 import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.iceteck.silicompressorr.SiliCompressor;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
@@ -180,7 +181,7 @@ public class ShopOrderImage extends AppCompatActivity {
                 Uri resultUri = result.getUri();
                 try {
                     bitmap = MediaStore.Images.Media.getBitmap(getApplicationContext().getContentResolver(), resultUri);
-                    bitmap = getResizedBitmap(bitmap, 400, 600);
+                    bitmap = SiliCompressor.with(getApplicationContext()).getCompressBitmap(String.valueOf(resultUri));
                     imgOrder.setImageBitmap(bitmap);
                 } catch (IOException e) {
                     e.printStackTrace();
