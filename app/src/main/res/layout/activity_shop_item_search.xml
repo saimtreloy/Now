@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="saim.com.now.Shop.ShopItemList">
+    tools:context="saim.com.now.Shop.ShopItemSearch">
 
     <android.support.v7.widget.Toolbar
         xmlns:android="http://schemas.android.com/apk/res/android"
@@ -29,11 +29,47 @@
         android:background="@android:color/white"
         android:layout_below="@id/toolbarHome">
 
+        <LinearLayout
+            android:id="@+id/layoutPlaceSearch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="visible"
+            android:background="@color/colorAccent"
+            android:paddingLeft="16dp"
+            android:paddingRight="10dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:gravity="center_vertical"
+            android:layout_alignParentTop="true" >
+
+            <EditText
+                android:id="@+id/inputSearch"
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:hint="Search here..."
+                android:background="@drawable/ic_round_input_search"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
+                android:paddingTop="4dp"
+                android:paddingBottom="4dp"
+                android:layout_marginRight="4dp"
+                android:textSize="14sp" />
+
+            <ImageView
+                android:id="@+id/btnSearch"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@android:drawable/ic_menu_search"
+                android:textStyle="bold" />
+        </LinearLayout>
+
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerViewServiceItemList"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_above="@id/layoutPlaceOrder"
+            android:layout_below="@id/layoutPlaceSearch"
             android:layout_gravity="center_horizontal">
 
         </android.support.v7.widget.RecyclerView>

@@ -358,7 +358,7 @@ public class ShopCartList extends AppCompatActivity {
     }
 
     public String getCurrentDateTime(){
-        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date date = new Date();
 
         return formatter.format(date) + "";

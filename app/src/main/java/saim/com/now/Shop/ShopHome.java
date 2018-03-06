@@ -141,6 +141,11 @@ public class ShopHome extends AppCompatActivity {
             return true;
         } else if(id == R.id.btnOptionShopCart) {
             startActivity(new Intent(getApplicationContext(), ShopCartList.class));
+        } else if(id == R.id.btnOptionShopCamera) {
+            finish();
+            startActivity(new Intent(getApplicationContext(), ShopOrderImage.class));
+        } else if(id == R.id.btnOptionShopSearch) {
+            startActivity(new Intent(getApplicationContext(), ShopItemSearch.class));
         }
 
         return super.onOptionsItemSelected(item);

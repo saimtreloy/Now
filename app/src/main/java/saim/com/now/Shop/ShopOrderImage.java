@@ -10,6 +10,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -17,6 +18,8 @@ import android.support.v7.widget.Toolbar;
 import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -53,7 +56,7 @@ public class ShopOrderImage extends AppCompatActivity {
     public static Toolbar toolbar;
     ProgressDialog progressDialog;
 
-    Bitmap bitmap;
+    Bitmap bitmap = null;
 
     ImageView imgOrder;
     Button btnCapture, btnSubmit;
@@ -92,12 +95,15 @@ public class ShopOrderImage extends AppCompatActivity {
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("SAIM IMAGE LOG", getStringImage(bitmap));
+                if (bitmap != null) {
+                    showPlaceOrderDialog(new SharedPrefDatabase(getApplicationContext()).RetriveUserName(),
+                            new SharedPrefDatabase(getApplicationContext()).RetriveUserMobile(),
+                            new SharedPrefDatabase(getApplicationContext()).RetriveUserLocation(),
+                            getStringImage(bitmap));
+                } else {
+                    Snackbar.make(v, "Please capture image first", Snackbar.LENGTH_SHORT).show();
+                }
 
-                showPlaceOrderDialog(new SharedPrefDatabase(getApplicationContext()).RetriveUserName(),
-                        new SharedPrefDatabase(getApplicationContext()).RetriveUserMobile(),
-                        new SharedPrefDatabase(getApplicationContext()).RetriveUserLocation(),
-                        getStringImage(bitmap));
             }
         });
     }
@@ -266,9 +272,21 @@ public class ShopOrderImage extends AppCompatActivity {
 
 
     public String getCurrentDateTime(){
-        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date date = new Date();
 
         return formatter.format(date) + "";
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == android.R.id.home) {
+            onBackPressed();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }

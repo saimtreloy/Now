@@ -92,6 +92,7 @@ public class ShopVendor extends AppCompatActivity {
 
             }
         });
+
     }
 
 
@@ -156,7 +157,7 @@ public class ShopVendor extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.option_menu_shop, menu);
+        getMenuInflater().inflate(R.menu.option_menu_shop_vendor, menu);
         return true;
     }
 
