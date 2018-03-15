@@ -19,4 +19,6 @@ public class ApiURL {
     public static String Service_Shop_Place_Order = link_header + "service_shop_order_user.php";     //service_shop_id, service_shop_type
     public static String Service_Shop_Place_Order_Image = link_header + "service_shop_order_image.php";     //service_shop_id, service_shop_type
     public static String Service_Shop_Item_Search = link_header + "service_shop_item_search.php";     //service_shop_search, item_vendor
+    public static String Service_Shop_Order_List = link_header + "service_shop_order_list.php";     //service_shop_search,
+    public static String Service_Shop_Order_Complete = link_header + "service_shop_order_complete.php";     //service_shop_search,
 }

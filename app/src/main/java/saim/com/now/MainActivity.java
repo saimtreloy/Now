@@ -52,6 +52,8 @@ import saim.com.now.Adapter.AdapterServiceList;
 import saim.com.now.Database.DatabaseHandler;
 import saim.com.now.Model.ModelLocation;
 import saim.com.now.Model.ModelServiceList;
+import saim.com.now.Shop.OrderList;
+import saim.com.now.Shop.ShopCartList;
 import saim.com.now.Utilities.ApiURL;
 import saim.com.now.Utilities.MySingleton;
 import saim.com.now.Utilities.SharedPrefDatabase;
@@ -178,6 +180,12 @@ public class MainActivity extends AppCompatActivity {
                 if (item.getItemId() == R.id.btnMenuProfile) {
                     drawerLayout.closeDrawers();
                     startActivity(new Intent(getApplicationContext(), Profile.class));
+                } else if (item.getItemId() == R.id.btnMenuOrders) {
+                    drawerLayout.closeDrawers();
+                    startActivity(new Intent(getApplicationContext(), OrderList.class));
+                } else if (item.getItemId() == R.id.btnMenuShoppingCart) {
+                    drawerLayout.closeDrawers();
+                    startActivity(new Intent(getApplicationContext(), ShopCartList.class));
                 }
                 return false;
             }
