@@ -177,7 +177,7 @@ public class OrderDetail extends AppCompatActivity {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-
+                        progressDialog.dismiss();
                         try {
                             JSONArray jsonArray = new JSONArray(response);
                             JSONObject jsonObject = jsonArray.getJSONObject(0);
@@ -195,6 +195,7 @@ public class OrderDetail extends AppCompatActivity {
                         }catch (Exception e){
                             Log.d("HDHD 1", e.toString() + "\n" + response);
                         }
+
                     }
                 }, new Response.ErrorListener() {
             @Override

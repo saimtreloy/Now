@@ -21,6 +21,7 @@ import saim.com.now.Database.DatabaseHandler;
 import saim.com.now.Model.ModelItemList;
 import saim.com.now.Model.ModelShopMenu;
 import saim.com.now.R;
+import saim.com.now.Shop.ItemDetail;
 import saim.com.now.Shop.ShopCategory;
 
 /**
@@ -186,8 +187,9 @@ public class AdapterServiceItemList extends RecyclerView.Adapter<AdapterServiceI
 
         @Override
         public void onClick(View v) {
-
-
+            Intent intent = new Intent(v.getContext(), ItemDetail.class);
+            intent.putExtra("ITEM_ID", adapterList.get(getAdapterPosition()).getItem_id());
+            v.getContext().startActivity(intent);
         }
     }
 }
