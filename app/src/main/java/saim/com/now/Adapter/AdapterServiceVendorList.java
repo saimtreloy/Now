@@ -58,8 +58,8 @@ public class AdapterServiceVendorList extends RecyclerView.Adapter<AdapterServic
 
         Picasso.with(holder.listImageView.getContext())
                 .load(adapterList.get(position).getService_shop_vendor_icon())
-                .placeholder(R.drawable.ic_placeholder_icon)
-                .error(R.drawable.ic_placeholder_icon)
+                .placeholder(R.drawable.ic_logo)
+                .error(R.drawable.ic_logo)
                 .into(holder.listImageView);
         holder.listName.setText(adapterList.get(position).getService_shop_vendor_name());
 

@@ -129,8 +129,15 @@ public class MainActivity extends AppCompatActivity {
         spinnerLocation = (Spinner) findViewById(R.id.spinnerLocation);
         btnLocation = (Button) findViewById(R.id.btnLocation);
 
-        LocationList();
-        //ServiceList();
+
+
+        if (new SharedPrefDatabase(getApplicationContext()).RetriveUserLocation().isEmpty()) {
+            LocationList();
+        } else {
+            layoutLocation.setVisibility(View.GONE);
+            recyclerViewServiceList.setVisibility(View.VISIBLE);
+            ServiceList();
+        }
     }
 
     private void NavigationItemClicked() {

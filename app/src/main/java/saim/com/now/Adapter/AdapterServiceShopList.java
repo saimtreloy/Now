@@ -54,8 +54,8 @@ public class AdapterServiceShopList extends RecyclerView.Adapter<AdapterServiceS
 
         Picasso.with(holder.listImageView.getContext())
                 .load(adapterList.get(position).getService_shop_icon())
-                .placeholder(R.drawable.ic_placeholder_icon)
-                .error(R.drawable.ic_placeholder_icon)
+                .placeholder(R.drawable.ic_logo)
+                .error(R.drawable.ic_logo)
                 .into(holder.listImageView);
         holder.listImageView.setColorFilter(Color.parseColor(adapterList.get(position).getService_shop_color()));
         holder.listName.setText(adapterList.get(position).getService_shop_name());

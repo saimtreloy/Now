@@ -40,6 +40,7 @@
             android:src="@drawable/ic_placeholder"
             app:civ_border_width="2dp"
             android:transitionName=""
+            android:layout_marginBottom="16dp"
             app:civ_border_color="@color/colorAccent"/>
 
         <TextView
@@ -109,6 +110,16 @@
                 android:padding="10dp"
                 android:background="@drawable/ic_round_profile"
                 android:src="@drawable/ic_email"/>
+
+            <ImageView
+                android:id="@+id/imgProChangeLocation"
+                android:layout_width="42dp"
+                android:layout_height="42dp"
+                android:layout_marginLeft="16dp"
+                android:padding="10dp"
+                android:background="@drawable/ic_round_profile"
+                android:src="@drawable/ic_place"
+                android:tint="#FFF"/>
 
         </LinearLayout>
 

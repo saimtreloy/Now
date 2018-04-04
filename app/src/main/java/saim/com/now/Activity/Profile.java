@@ -20,7 +20,7 @@ public class Profile extends AppCompatActivity {
     public static Toolbar toolbar;
 
     CircleImageView imgProfile;
-    ImageView imgProCall, imgProChangeImage, imgProChangePass, imgProChangeEmail;
+    ImageView imgProCall, imgProChangeImage, imgProChangePass, imgProChangeEmail, imgProChangeLocation;
     TextView txtProName, txtProEmail, txtProMobile;
 
 
@@ -44,6 +44,7 @@ public class Profile extends AppCompatActivity {
         imgProChangeImage = (ImageView) findViewById(R.id.imgProChangeImage);
         imgProChangePass = (ImageView) findViewById(R.id.imgProChangePass);
         imgProChangeEmail = (ImageView) findViewById(R.id.imgProChangeEmail);
+        imgProChangeLocation = (ImageView) findViewById(R.id.imgProChangeLocation);
 
         txtProName = (TextView) findViewById(R.id.txtProName);
         txtProEmail = (TextView) findViewById(R.id.txtProEmail);
@@ -58,6 +59,8 @@ public class Profile extends AppCompatActivity {
         YoYo.with(Techniques.ZoomIn).duration(1000).playOn(imgProChangeImage);
         YoYo.with(Techniques.ZoomIn).duration(1000).playOn(imgProChangePass);
         YoYo.with(Techniques.ZoomIn).duration(1000).playOn(imgProChangeEmail);
+        YoYo.with(Techniques.ZoomIn).duration(1000).playOn(imgProChangeLocation);
+
         Picasso.with(getApplicationContext())
                 .load(new SharedPrefDatabase(getApplicationContext()).RetriveUserImage())
                 .placeholder(R.drawable.ic_placeholder_icon)
