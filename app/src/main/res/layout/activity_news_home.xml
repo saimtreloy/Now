@@ -25,6 +25,8 @@
         app:contentInsetStartWithNavigation="0dp" />
 
     <ScrollView
+        android:id="@+id/scrollMain"
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/toolbarHome">

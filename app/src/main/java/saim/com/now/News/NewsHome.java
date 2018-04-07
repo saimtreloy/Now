@@ -13,6 +13,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -44,6 +45,7 @@ public class NewsHome extends AppCompatActivity {
     ProgressDialog progressDialog;
 
     RelativeLayout layoutNewsHome;
+    ScrollView scrollMain;
 
     static Handler tickerHandler = new Handler();
     static ArrayList<ModelTicker> tickerList = new ArrayList<>();
@@ -81,6 +83,7 @@ public class NewsHome extends AppCompatActivity {
         progressDialog.setCanceledOnTouchOutside(false);
 
         layoutNewsHome = (RelativeLayout) findViewById(R.id.layoutNewsHome);
+        scrollMain = (ScrollView) findViewById(R.id.scrollMain);
         txtTicker = (TextView) findViewById(R.id.txtTicker);
         txtDate = (TextView) findViewById(R.id.txtDate);
 
@@ -138,6 +141,8 @@ public class NewsHome extends AppCompatActivity {
 
 
     public void ExtractData(JSONArray RecentPost, JSONArray MenuList, JSONArray TickList) {
+
+        scrollMain.setVisibility(View.VISIBLE);
 
         for (int i=0; i<RecentPost.length(); i++) {
             try {
@@ -211,12 +216,6 @@ public class NewsHome extends AppCompatActivity {
                 txtDate.setText(tickerList.get(start).getTickerDate().trim() + ": ");
                 txtTicker.setText(tickerList.get(start).getTickerName().trim());
                 txtTicker.setTag(tickerList.get(start).getTickerLink().trim());
-
-                txtTicker.setEllipsize(TextUtils.TruncateAt.MARQUEE);
-                txtTicker.setSingleLine(true);
-                txtTicker.setMarqueeRepeatLimit(5);
-                txtTicker.setSelected(true);
-
 
                 txtTicker.setOnClickListener(new View.OnClickListener() {
                     @Override

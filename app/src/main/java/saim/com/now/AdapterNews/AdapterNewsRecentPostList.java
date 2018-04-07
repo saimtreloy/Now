@@ -1,6 +1,7 @@
 package saim.com.now.AdapterNews;
 
 import android.content.Context;
+import android.content.Intent;
 import android.media.Image;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -15,6 +16,7 @@ import java.util.ArrayList;
 
 import saim.com.now.ModelNews.ModelMenu;
 import saim.com.now.ModelNews.ModelRecentPost;
+import saim.com.now.News.NewsBrowser;
 import saim.com.now.R;
 
 /**
@@ -79,7 +81,7 @@ public class AdapterNewsRecentPostList extends RecyclerView.Adapter<AdapterNewsR
 
         @Override
         public void onClick(View v) {
-
+            v.getContext().startActivity(new Intent(v.getContext().getApplicationContext(), NewsBrowser.class).putExtra("MAIN_URL", adapterList.get(getAdapterPosition()).getTitle_link()).putExtra("TITLE", adapterList.get(getAdapterPosition()).getTitle()));
         }
     }
 }
