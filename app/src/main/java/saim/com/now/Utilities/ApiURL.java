@@ -29,5 +29,7 @@ public class ApiURL {
     //==========================NOW NEWS==========================//
     public static String link_header_news = "http://globalearnmoney.com/now_news/";
 
-    public static String NEWS_RECENT = link_header_news + "recent.php";
+    public static String NEWS_POST = link_header_news + "link_post.php";
+    public static String NEWS_MENU = link_header_news + "link_menu.php";
+    public static String NEWS_TICKER = link_header_news + "link_ticker.php";
 }

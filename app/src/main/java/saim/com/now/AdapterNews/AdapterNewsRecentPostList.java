@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.media.Image;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -58,6 +59,8 @@ public class AdapterNewsRecentPostList extends RecyclerView.Adapter<AdapterNewsR
         holder.txtNewsTitle.setText(adapterList.get(position).getTitle().trim());
         holder.txtNewsDetail.setText(adapterList.get(position).getDetail().trim());
 
+        Log.d("SAIM NEW RESPONSE", adapterList.get(position).getTitle());
+
     }
 
     @Override
@@ -67,7 +70,7 @@ public class AdapterNewsRecentPostList extends RecyclerView.Adapter<AdapterNewsR
 
     public class ServiceListViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView txtNewsTitle, txtNewsDetail;
-        ImageView imgNewsRecentPost;
+        ImageView imgNewsRecentPost, imgNewsLike, imgNewsComment;
 
         public ServiceListViewHolder(View itemView) {
             super(itemView);

@@ -20,6 +20,7 @@
             android:id="@+id/imgNewsRecentPost"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:src="@drawable/ic_logo"
             android:scaleType="fitXY"/>
 
         <LinearLayout
@@ -33,7 +34,7 @@
                 android:id="@+id/txtNewsTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Bangladesg"
+                android:text="I love Bangladesh"
                 android:textColor="@android:color/white"
                 android:textStyle="bold"
                 android:paddingLeft="8dp"
@@ -43,13 +44,52 @@
                 android:id="@+id/txtNewsDetail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Bangladesg"
+                android:text="In publishing and graphic design, lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document without relying on meaningful content (also called greeking). Replacing the actual content with placeholder text allows designers to design the form of the content before the content itself has"
                 android:textColor="@android:color/white"
                 android:textSize="12sp"
                 android:paddingLeft="8dp"
                 android:paddingRight="8dp"
                 android:paddingBottom="8dp"/>
 
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:orientation="horizontal"
+            android:gravity="end"
+            android:paddingRight="8dp">
+
+            <ImageView
+                android:id="@+id/imgNewsLike"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:padding="10dp"
+                android:src="@drawable/ic_news_like"
+                android:tint="@android:color/white"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="12"
+                android:textColor="@android:color/white"
+                android:textSize="16dp"
+                android:gravity="center"/>
+
+            <ImageView
+                android:id="@+id/imgNewsComment"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:padding="10dp"
+                android:src="@drawable/ic_news_comments"
+                android:tint="@android:color/white"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="12"
+                android:textColor="@android:color/white"
+                android:textSize="16dp"
+                android:gravity="center"/>
 
         </LinearLayout>
 

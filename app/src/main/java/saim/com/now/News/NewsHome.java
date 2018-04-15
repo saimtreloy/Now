@@ -1,6 +1,7 @@
 package saim.com.now.News;
 
 import android.app.ProgressDialog;
+import android.os.Build;
 import android.os.Handler;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -12,11 +13,13 @@ import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -27,11 +30,15 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import saim.com.now.Adapter.AdapterServiceList;
+import saim.com.now.Adapter.AdapterShopOrderList;
 import saim.com.now.AdapterNews.AdapterNewsMenuList;
 import saim.com.now.AdapterNews.AdapterNewsRecentPostList;
 import saim.com.now.Model.ModelServiceList;
+import saim.com.now.Model.ModelShopOrder;
 import saim.com.now.ModelNews.ModelMenu;
 import saim.com.now.ModelNews.ModelRecentPost;
 import saim.com.now.ModelNews.ModelTicker;
@@ -96,8 +103,10 @@ public class NewsHome extends AppCompatActivity {
         layoutManagerRecentPostList = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         recyclerViewNewsRecentPost.setLayoutManager(layoutManagerRecentPostList);
         recyclerViewNewsRecentPost.setHasFixedSize(true);
+        LoadMoreData(recyclerViewNewsRecentPost);
 
-        ServiceList();
+        //ServiceList();
+        MenuList();
     }
 
 
@@ -106,7 +115,7 @@ public class NewsHome extends AppCompatActivity {
         modelMenus.clear();
         tickerList.clear();
         progressDialog.show();
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, ApiURL.NEWS_RECENT,
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, ApiURL.NEWS_POST,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -166,6 +175,7 @@ public class NewsHome extends AppCompatActivity {
 
         newsRecentPostListAdapter = new AdapterNewsRecentPostList(recentPostList);
         recyclerViewNewsRecentPost.setAdapter(newsRecentPostListAdapter);
+        LoadMoreData(recyclerViewNewsRecentPost);
 
         for (int i=0; i<MenuList.length(); i++) {
             try {
@@ -202,8 +212,6 @@ public class NewsHome extends AppCompatActivity {
         }
         tickerHandler.postDelayed(mUpdateTickerTask, 0);
 
-
-        //progressBarHandler.postDelayed(mUpdateTimeTask, 100);
     }
 
 
@@ -232,4 +240,190 @@ public class NewsHome extends AppCompatActivity {
         }
 
     };
+
+
+    public void LoadMoreData(final RecyclerView recycler) {
+        recycler.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+
+                int visibleItemCount = recycler.getLayoutManager().getChildCount();
+                int totalItemCount = recycler.getLayoutManager().getItemCount();
+                int pastVisiblesItems = ((LinearLayoutManager) recycler.getLayoutManager()).findFirstVisibleItemPosition();
+
+                if ((visibleItemCount + pastVisiblesItems) >= totalItemCount) {
+                    Log.d("SAIM RECYCLER VIEW", " Reached Last Item");
+                    PostList(recentPostList.size() + "");
+                }
+            }
+        });
+
+
+    }
+
+    public void MenuList(){
+        progressDialog.show();
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, ApiURL.NEWS_MENU,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.d("SAM RESPOSNE ", response);
+                        try {
+                            JSONArray jsonArray = new JSONArray(response);
+                            JSONObject jsonObject = jsonArray.getJSONObject(0);
+                            String code = jsonObject.getString("code");
+                            if (code.equals("success")){
+
+                                JSONArray jsonArrayUser = jsonObject.getJSONArray("post_list");
+                                for (int i=0; i<jsonArrayUser.length(); i++){
+                                    JSONObject jsonObjectUser = jsonArrayUser.getJSONObject(i);
+
+                                    String id = jsonObjectUser.getString("id");
+                                    String menu_link = jsonObjectUser.getString("menu_link");
+                                    String menu = jsonObjectUser.getString("menu");
+
+                                    ModelMenu modelMenu = new ModelMenu(menu, menu_link);
+                                    modelMenus.add(modelMenu);
+                                }
+
+                                newsMenuListAdapter = new AdapterNewsMenuList(modelMenus);
+                                recyclerViewNewsMenu.setAdapter(newsMenuListAdapter);
+
+                                TickerList();
+
+                            }else {
+                                String message = jsonObject.getString("message");
+                                Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+                            }
+                        }catch (Exception e){
+                            Log.d("HDHD 1", e.toString() + "\n" + response);
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+        stringRequest.setShouldCache(false);
+        MySingleton.getInstance(getApplicationContext()).addToRequestQueue(stringRequest);
+    }
+
+    public void TickerList(){
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, ApiURL.NEWS_TICKER,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.d("SAM RESPOSNE ", response);
+                        try {
+                            JSONArray jsonArray = new JSONArray(response);
+                            JSONObject jsonObject = jsonArray.getJSONObject(0);
+                            String code = jsonObject.getString("code");
+                            if (code.equals("success")){
+
+                                JSONArray jsonArrayUser = jsonObject.getJSONArray("post_list");
+                                for (int i=0; i<jsonArrayUser.length(); i++){
+                                    JSONObject jsonObjectUser = jsonArrayUser.getJSONObject(i);
+
+                                    String id = jsonObjectUser.getString("id");
+                                    String ticker_name = jsonObjectUser.getString("ticker_name");
+                                    String ticker_date = jsonObjectUser.getString("ticker_date");
+                                    String ticker_link = jsonObjectUser.getString("ticker_link");
+
+                                    ModelTicker modelTicker = new ModelTicker(ticker_name, ticker_date, ticker_link);
+                                    tickerList.add(modelTicker);
+                                }
+
+                                //tickerHandler.postDelayed(mUpdateTickerTask, 0);
+
+                                PostList(0 + "");
+
+                            }else {
+                                String message = jsonObject.getString("message");
+                                Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+                            }
+                        }catch (Exception e){
+                            Log.d("HDHD 1", e.toString() + "\n" + response);
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+        stringRequest.setShouldCache(false);
+        MySingleton.getInstance(getApplicationContext()).addToRequestQueue(stringRequest);
+    }
+
+    public void PostList(final String list_size){
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, ApiURL.NEWS_POST,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.d("SAM RESPOSNE ", response);
+                        progressDialog.dismiss();
+                        scrollMain.setVisibility(View.VISIBLE);
+                        try {
+                            JSONArray jsonArray = new JSONArray(response);
+                            JSONObject jsonObject = jsonArray.getJSONObject(0);
+                            String code = jsonObject.getString("code");
+                            if (code.equals("success")){
+
+                                JSONArray jsonArrayUser = jsonObject.getJSONArray("post_list");
+                                if (jsonArrayUser.length()>0) {
+                                    for (int i=0; i<jsonArrayUser.length(); i++){
+                                        JSONObject jsonObjectUser = jsonArrayUser.getJSONObject(i);
+
+                                        String id = jsonObjectUser.getString("id");
+                                        String title = jsonObjectUser.getString("title");
+                                        String detail = jsonObjectUser.getString("detail");
+                                        String image = jsonObjectUser.getString("image");
+                                        String title_link = jsonObjectUser.getString("title_link");
+                                        String date = jsonObjectUser.getString("date");
+                                        String menu = jsonObjectUser.getString("menu");
+                                        String menu_link = jsonObjectUser.getString("menu_link");
+                                        String source = jsonObjectUser.getString("source");
+
+                                        ModelRecentPost modelRecentPost = new ModelRecentPost(menu, menu_link, image, date, title, title_link, detail);
+                                        recentPostList.add(modelRecentPost);
+                                    }
+
+                                    newsRecentPostListAdapter = new AdapterNewsRecentPostList(recentPostList);
+                                    recyclerViewNewsRecentPost.setAdapter(newsRecentPostListAdapter);
+                                    LoadMoreData(recyclerViewNewsRecentPost);
+                                }
+
+
+                            }else {
+                                String message = jsonObject.getString("message");
+                                Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+                            }
+                        }catch (Exception e){
+                            Log.d("HDHD 1", e.toString() + "\n" + response);
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String,String> params = new HashMap<String, String>();
+                params.put("list_size", list_size);
+
+                return params;
+            }
+        };
+        stringRequest.setShouldCache(false);
+        MySingleton.getInstance(getApplicationContext()).addToRequestQueue(stringRequest);
+    }
 }
