@@ -36,7 +36,8 @@
             android:theme="@style/Base.Theme.AppCompat" />
         <activity android:name=".Shop.ItemDetail" />
         <activity android:name=".News.NewsHome" />
-        <activity android:name=".News.NewsBrowser"></activity>
+        <activity android:name=".News.NewsBrowser" />
+        <activity android:name=".News.NewsComment"></activity>
     </application>
 
 </manifest>

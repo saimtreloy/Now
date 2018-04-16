@@ -32,4 +32,7 @@ public class ApiURL {
     public static String NEWS_POST = link_header_news + "link_post.php";
     public static String NEWS_MENU = link_header_news + "link_menu.php";
     public static String NEWS_TICKER = link_header_news + "link_ticker.php";
+    public static String NEWS_LIKE = link_header_news + "link_post_like.php";
+    public static String NEWS_COMMENTS = link_header_news + "link_post_comment.php";
+    public static String NEWS_COMMENTS_RETRIVE = link_header_news + "link_retrive_comment.php";
 }

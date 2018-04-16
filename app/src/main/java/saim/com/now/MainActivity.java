@@ -15,6 +15,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.util.Log;
 import android.util.Pair;
 import android.view.LayoutInflater;
@@ -131,7 +132,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        if (new SharedPrefDatabase(getApplicationContext()).RetriveUserLocation().isEmpty()) {
+        if (TextUtils.isEmpty(new SharedPrefDatabase(getApplicationContext()).RetriveUserLocation())) {
             LocationList();
         } else {
             layoutLocation.setVisibility(View.GONE);

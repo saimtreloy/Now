@@ -1,19 +1,18 @@
 package saim.com.now.News;
 
+import android.annotation.TargetApi;
 import android.app.ProgressDialog;
 import android.os.Build;
-import android.os.Handler;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.GridLayoutManager;
+import android.os.Handler;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.AbsListView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -26,30 +25,28 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import saim.com.now.Adapter.AdapterServiceList;
-import saim.com.now.Adapter.AdapterShopOrderList;
 import saim.com.now.AdapterNews.AdapterNewsMenuList;
 import saim.com.now.AdapterNews.AdapterNewsRecentPostList;
-import saim.com.now.Model.ModelServiceList;
-import saim.com.now.Model.ModelShopOrder;
 import saim.com.now.ModelNews.ModelMenu;
 import saim.com.now.ModelNews.ModelRecentPost;
 import saim.com.now.ModelNews.ModelTicker;
 import saim.com.now.R;
 import saim.com.now.Utilities.ApiURL;
+import saim.com.now.Utilities.EndlessRecyclerOnScrollListener;
 import saim.com.now.Utilities.MySingleton;
+import saim.com.now.Utilities.SharedPrefDatabase;
 
 public class NewsHome extends AppCompatActivity {
 
     public static Toolbar toolbar;
     ProgressDialog progressDialog;
+    ProgressBar progressBarR;
 
     RelativeLayout layoutNewsHome;
     ScrollView scrollMain;
@@ -89,6 +86,8 @@ public class NewsHome extends AppCompatActivity {
         progressDialog.setMessage("Please wait...");
         progressDialog.setCanceledOnTouchOutside(false);
 
+        progressBarR = (ProgressBar) findViewById(R.id.progressBarR);
+
         layoutNewsHome = (RelativeLayout) findViewById(R.id.layoutNewsHome);
         scrollMain = (ScrollView) findViewById(R.id.scrollMain);
         txtTicker = (TextView) findViewById(R.id.txtTicker);
@@ -107,111 +106,6 @@ public class NewsHome extends AppCompatActivity {
 
         //ServiceList();
         MenuList();
-    }
-
-
-    public void ServiceList(){
-        recentPostList.clear();
-        modelMenus.clear();
-        tickerList.clear();
-        progressDialog.show();
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, ApiURL.NEWS_POST,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        progressDialog.dismiss();
-                        Log.d("RESPONSE SAIM", response);
-                        try {
-                            JSONArray jsonArray = new JSONArray(response);
-                            JSONObject jsonObject = jsonArray.getJSONObject(0);
-                            String code = jsonObject.getString("code");
-                            if (code.equals("success")){
-                                JSONArray jsonArrayRecentPost = jsonObject.getJSONArray("recent_post");
-                                JSONArray jsonArrayMenu = jsonObject.getJSONArray("menu_list");
-                                JSONArray jsonArrayTickList = jsonObject.getJSONArray("tic_list");
-
-                                ExtractData(jsonArrayRecentPost, jsonArrayMenu, jsonArrayTickList);
-                            } else {
-                                Snackbar.make(layoutNewsHome ,"Something is wrong", Snackbar.LENGTH_SHORT).show();
-                            }
-                        }catch (Exception e){
-                            Log.d("HDHD 1", e.toString() + "\n" + response);
-                        }
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-
-            }
-        });
-        stringRequest.setShouldCache(false);
-        MySingleton.getInstance(getApplicationContext()).addToRequestQueue(stringRequest);
-    }
-
-
-    public void ExtractData(JSONArray RecentPost, JSONArray MenuList, JSONArray TickList) {
-
-        scrollMain.setVisibility(View.VISIBLE);
-
-        for (int i=0; i<RecentPost.length(); i++) {
-            try {
-
-                JSONObject jsonObjectPost = RecentPost.getJSONObject(i);
-                String category = jsonObjectPost.getString("category");
-                String category_link = jsonObjectPost.getString("category_link");
-                String image = jsonObjectPost.getString("image");
-                String date = jsonObjectPost.getString("date");
-                String title = jsonObjectPost.getString("title");
-                String title_link = jsonObjectPost.getString("title_link");
-                String detail = jsonObjectPost.getString("detail");
-
-                ModelRecentPost modelRecentPost = new ModelRecentPost(category, category_link, image, date, title, title_link, detail);
-                recentPostList.add(modelRecentPost);
-
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-
-        newsRecentPostListAdapter = new AdapterNewsRecentPostList(recentPostList);
-        recyclerViewNewsRecentPost.setAdapter(newsRecentPostListAdapter);
-        LoadMoreData(recyclerViewNewsRecentPost);
-
-        for (int i=0; i<MenuList.length(); i++) {
-            try {
-
-                JSONObject jsonObjectPost = MenuList.getJSONObject(i);
-                String menu_name = jsonObjectPost.getString("menu_name");
-                String menu_link = jsonObjectPost.getString("menu_link");
-
-                ModelMenu modelMenu = new ModelMenu(menu_name, menu_link);
-                modelMenus.add(modelMenu);
-
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-        Log.d("SAIM MENU", modelMenus.toString());
-        newsMenuListAdapter = new AdapterNewsMenuList(modelMenus);
-        recyclerViewNewsMenu.setAdapter(newsMenuListAdapter);
-
-        for (int i=0; i<TickList.length(); i++) {
-            try {
-
-                JSONObject jsonObjectTicker = TickList.getJSONObject(i);
-                String tic_name = jsonObjectTicker.getString("tic_name");
-                String tic_date = jsonObjectTicker.getString("tic_date");
-                String tic_link = jsonObjectTicker.getString("tic_link");
-
-                ModelTicker modelTicker = new ModelTicker(tic_name, tic_date, tic_link);
-                tickerList.add(modelTicker);
-
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-        tickerHandler.postDelayed(mUpdateTickerTask, 0);
-
     }
 
 
@@ -241,9 +135,12 @@ public class NewsHome extends AppCompatActivity {
 
     };
 
+    Boolean isScrooling = false;
+    int currentItem, totalItem, scroolOutItem;
 
     public void LoadMoreData(final RecyclerView recycler) {
-        recycler.addOnScrollListener(new RecyclerView.OnScrollListener() {
+
+        /*recycler.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
@@ -257,14 +154,47 @@ public class NewsHome extends AppCompatActivity {
                 int totalItemCount = recycler.getLayoutManager().getItemCount();
                 int pastVisiblesItems = ((LinearLayoutManager) recycler.getLayoutManager()).findFirstVisibleItemPosition();
 
-                if ((visibleItemCount + pastVisiblesItems) >= totalItemCount) {
-                    Log.d("SAIM RECYCLER VIEW", " Reached Last Item");
+                if ((visibleItemCount + pastVisiblesItems) == totalItemCount) {
+                    //Log.d("SAIM RECYCLER VIEW", " Reached Last Item");
+                    Log.d("SAIM RECYCLER VIEW", recentPostList.size() + " Reached Last Item");
+                    progressDialog.show();
                     PostList(recentPostList.size() + "");
                 }
             }
+        });*/
+
+
+
+        recycler.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                if (newState == AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL) {
+                    isScrooling = true;
+                }
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                currentItem = layoutManagerRecentPostList.getChildCount();
+                totalItem = layoutManagerRecentPostList.getItemCount();
+                scroolOutItem = ((LinearLayoutManager) layoutManagerRecentPostList).findFirstVisibleItemPosition();
+                if (isScrooling && (currentItem + scroolOutItem == totalItem) ) {
+                    isScrooling = false;
+                    Log.d("SAIM RECYCLER VIEW", recentPostList.size() + " Reached Last Item");
+                    progressBarR.setVisibility(View.VISIBLE);
+
+                    new Handler().post(new Runnable() {
+                        @Override
+                        public void run() {
+                            PostListR(recentPostList.size() + "");
+                        }
+                    });
+
+                }
+            }
         });
-
-
     }
 
     public void MenuList(){
@@ -273,7 +203,6 @@ public class NewsHome extends AppCompatActivity {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        Log.d("SAM RESPOSNE ", response);
                         try {
                             JSONArray jsonArray = new JSONArray(response);
                             JSONObject jsonObject = jsonArray.getJSONObject(0);
@@ -320,7 +249,6 @@ public class NewsHome extends AppCompatActivity {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        Log.d("SAM RESPOSNE ", response);
                         try {
                             JSONArray jsonArray = new JSONArray(response);
                             JSONObject jsonObject = jsonArray.getJSONObject(0);
@@ -363,6 +291,7 @@ public class NewsHome extends AppCompatActivity {
     }
 
     public void PostList(final String list_size){
+        recentPostList.clear();
         StringRequest stringRequest = new StringRequest(Request.Method.POST, ApiURL.NEWS_POST,
                 new Response.Listener<String>() {
                     @Override
@@ -390,8 +319,11 @@ public class NewsHome extends AppCompatActivity {
                                         String menu = jsonObjectUser.getString("menu");
                                         String menu_link = jsonObjectUser.getString("menu_link");
                                         String source = jsonObjectUser.getString("source");
+                                        String like = jsonObjectUser.getString("like");
+                                        String comments = jsonObjectUser.getString("comments");
+                                        String user_id = jsonObjectUser.getString("user_id");
 
-                                        ModelRecentPost modelRecentPost = new ModelRecentPost(menu, menu_link, image, date, title, title_link, detail);
+                                        ModelRecentPost modelRecentPost = new ModelRecentPost(id, title, detail, image, title_link, date, menu, menu_link, source, like, comments, user_id);
                                         recentPostList.add(modelRecentPost);
                                     }
 
@@ -418,8 +350,83 @@ public class NewsHome extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String,String> params = new HashMap<String, String>();
-                params.put("list_size", list_size);
+                if (new SharedPrefDatabase(getApplicationContext()).RetriveUserID().isEmpty() || new SharedPrefDatabase(getApplicationContext()).RetriveUserID()==null) {
+                    params.put("list_size", list_size);
+                    params.put("user_id", "0");
+                } else {
+                    params.put("list_size", list_size);
+                    params.put("user_id", new SharedPrefDatabase(getApplicationContext()).RetriveUserID());
+                }
+                return params;
+            }
+        };
+        stringRequest.setShouldCache(false);
+        MySingleton.getInstance(getApplicationContext()).addToRequestQueue(stringRequest);
+    }
 
+    public void PostListR(final String list_size){
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, ApiURL.NEWS_POST,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.d("SAM RESPOSNE ", response);
+                        progressBarR.setVisibility(View.GONE);
+                        try {
+                            JSONArray jsonArray = new JSONArray(response);
+                            JSONObject jsonObject = jsonArray.getJSONObject(0);
+                            String code = jsonObject.getString("code");
+                            if (code.equals("success")){
+
+                                JSONArray jsonArrayUser = jsonObject.getJSONArray("post_list");
+                                if (jsonArrayUser.length()>0) {
+                                    for (int i=0; i<jsonArrayUser.length(); i++){
+                                        JSONObject jsonObjectUser = jsonArrayUser.getJSONObject(i);
+
+                                        String id = jsonObjectUser.getString("id");
+                                        String title = jsonObjectUser.getString("title");
+                                        String detail = jsonObjectUser.getString("detail");
+                                        String image = jsonObjectUser.getString("image");
+                                        String title_link = jsonObjectUser.getString("title_link");
+                                        String date = jsonObjectUser.getString("date");
+                                        String menu = jsonObjectUser.getString("menu");
+                                        String menu_link = jsonObjectUser.getString("menu_link");
+                                        String source = jsonObjectUser.getString("source");
+                                        String like = jsonObjectUser.getString("like");
+                                        String comments = jsonObjectUser.getString("comments");
+                                        String user_id = jsonObjectUser.getString("user_id");
+
+                                        ModelRecentPost modelRecentPost = new ModelRecentPost(id, title, detail, image, title_link, date, menu, menu_link, source, like, comments, user_id);
+                                        recentPostList.add(modelRecentPost);
+                                        newsRecentPostListAdapter.notifyDataSetChanged();
+                                    }
+
+                                }
+
+
+                            }else {
+                                String message = jsonObject.getString("message");
+                                Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+                            }
+                        }catch (Exception e){
+                            Log.d("HDHD 1", e.toString() + "\n" + response);
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String,String> params = new HashMap<String, String>();
+                if (new SharedPrefDatabase(getApplicationContext()).RetriveUserID().isEmpty() || new SharedPrefDatabase(getApplicationContext()).RetriveUserID()==null) {
+                    params.put("list_size", list_size);
+                    params.put("user_id", "0");
+                } else {
+                    params.put("list_size", list_size);
+                    params.put("user_id", new SharedPrefDatabase(getApplicationContext()).RetriveUserID());
+                }
                 return params;
             }
         };
