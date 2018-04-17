@@ -1,10 +1,9 @@
 package saim.com.now.News;
 
-import android.annotation.TargetApi;
 import android.app.ProgressDialog;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -23,6 +22,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.hanks.htextview.typer.TyperTextView;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -30,6 +30,8 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import saim.com.now.AdapterNews.AdapterNewsMenuList;
 import saim.com.now.AdapterNews.AdapterNewsRecentPostList;
@@ -38,7 +40,6 @@ import saim.com.now.ModelNews.ModelRecentPost;
 import saim.com.now.ModelNews.ModelTicker;
 import saim.com.now.R;
 import saim.com.now.Utilities.ApiURL;
-import saim.com.now.Utilities.EndlessRecyclerOnScrollListener;
 import saim.com.now.Utilities.MySingleton;
 import saim.com.now.Utilities.SharedPrefDatabase;
 
@@ -57,7 +58,9 @@ public class NewsHome extends AppCompatActivity {
     static ArrayList<ModelMenu> modelMenus = new ArrayList<>();
     static int start = 0;
 
-    static TextView txtTicker, txtDate;
+    static TextView txtTicker1, txtDate;
+    static TyperTextView txtTicker;
+
 
     RecyclerView recyclerViewNewsMenu;
     LinearLayoutManager layoutManagerNewsMenu;
@@ -90,7 +93,7 @@ public class NewsHome extends AppCompatActivity {
 
         layoutNewsHome = (RelativeLayout) findViewById(R.id.layoutNewsHome);
         scrollMain = (ScrollView) findViewById(R.id.scrollMain);
-        txtTicker = (TextView) findViewById(R.id.txtTicker);
+        txtTicker = (TyperTextView) findViewById(R.id.txtTicker);
         txtDate = (TextView) findViewById(R.id.txtDate);
 
         recyclerViewNewsMenu = (RecyclerView) findViewById(R.id.recyclerViewNewsMenu);
@@ -108,29 +111,26 @@ public class NewsHome extends AppCompatActivity {
         MenuList();
     }
 
-
-    static Runnable mUpdateTickerTask = new Runnable() {
+    static Runnable updateRecentText = new Runnable() {
+        @Override
         public void run() {
-            try {
-                if (start > tickerList.size()){
-                    start = 0;
-                }
-                txtDate.setText(tickerList.get(start).getTickerDate().trim() + ": ");
-                txtTicker.setText(tickerList.get(start).getTickerName().trim());
-                txtTicker.setTag(tickerList.get(start).getTickerLink().trim());
-
-                txtTicker.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Log.d("SAIM TICKER LINK", txtTicker.getTag().toString());
-                    }
-                });
-
-                start++;
-            } catch (Exception e) {
-                e.printStackTrace();
+            Log.d("SAIM TICKER LINK", start + "  " + tickerList.size());
+            if (start > tickerList.size()-1){
+                start = 0;
             }
-            tickerHandler.postDelayed(mUpdateTickerTask, 5000);
+            txtDate.setText(tickerList.get(start).getTickerDate().trim() + ": ");
+            txtTicker.setText(tickerList.get(start).getTickerName().trim());
+            txtTicker.setTag(tickerList.get(start).getTickerLink().trim());
+
+            txtTicker.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Log.d("SAIM TICKER LINK", txtTicker.getTag().toString());
+                }
+            });
+
+            start++;
+            tickerHandler.postDelayed(updateRecentText, 5000);
         }
 
     };
@@ -139,31 +139,6 @@ public class NewsHome extends AppCompatActivity {
     int currentItem, totalItem, scroolOutItem;
 
     public void LoadMoreData(final RecyclerView recycler) {
-
-        /*recycler.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-            }
-
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-
-                int visibleItemCount = recycler.getLayoutManager().getChildCount();
-                int totalItemCount = recycler.getLayoutManager().getItemCount();
-                int pastVisiblesItems = ((LinearLayoutManager) recycler.getLayoutManager()).findFirstVisibleItemPosition();
-
-                if ((visibleItemCount + pastVisiblesItems) == totalItemCount) {
-                    //Log.d("SAIM RECYCLER VIEW", " Reached Last Item");
-                    Log.d("SAIM RECYCLER VIEW", recentPostList.size() + " Reached Last Item");
-                    progressDialog.show();
-                    PostList(recentPostList.size() + "");
-                }
-            }
-        });*/
-
-
 
         recycler.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -268,7 +243,9 @@ public class NewsHome extends AppCompatActivity {
                                     tickerList.add(modelTicker);
                                 }
 
-                                //tickerHandler.postDelayed(mUpdateTickerTask, 0);
+
+
+                                new Handler().post(updateRecentText);
 
                                 PostList(0 + "");
 

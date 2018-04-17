@@ -29,6 +29,7 @@ import java.util.Map;
 import java.util.logging.Handler;
 import java.util.logging.LogRecord;
 
+import saim.com.now.Login;
 import saim.com.now.ModelNews.ModelMenu;
 import saim.com.now.ModelNews.ModelRecentPost;
 import saim.com.now.News.NewsBrowser;
@@ -111,23 +112,29 @@ public class AdapterNewsRecentPostList extends RecyclerView.Adapter<AdapterNewsR
             imgNewsLike.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Log.d("SAIM POST ID", adapterList.get(getAdapterPosition()).getId());
-                    new android.os.Handler().post(new Runnable() {
-                        @Override
-                        public void run() {
-                            PostLike(imgNewsLike.getContext().getApplicationContext());
-                        }
-                    });
-
+                    if (new SharedPrefDatabase(v.getContext().getApplicationContext()).RetriveUserID().isEmpty() || new SharedPrefDatabase(v.getContext().getApplicationContext()).RetriveUserID()==null) {
+                        v.getContext().startActivity(new Intent(v.getContext().getApplicationContext(), Login.class));
+                    } else {
+                        new android.os.Handler().post(new Runnable() {
+                            @Override
+                            public void run() {
+                                PostLike(imgNewsLike.getContext().getApplicationContext());
+                            }
+                        });
+                    }
                 }
             });
 
             imgNewsComment.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    v.getContext().startActivity(new Intent(v.getContext().getApplicationContext(), NewsComment.class)
-                            .putExtra("NEWS_NAME", adapterList.get(getAdapterPosition()).getTitle())
-                            .putExtra("NEWS_ID", adapterList.get(getAdapterPosition()).getId()));
+                    if (new SharedPrefDatabase(v.getContext().getApplicationContext()).RetriveUserID().isEmpty() || new SharedPrefDatabase(v.getContext().getApplicationContext()).RetriveUserID()==null) {
+                        v.getContext().startActivity(new Intent(v.getContext().getApplicationContext(), Login.class));
+                    } else {
+                        v.getContext().startActivity(new Intent(v.getContext().getApplicationContext(), NewsComment.class)
+                                .putExtra("NEWS_NAME", adapterList.get(getAdapterPosition()).getTitle())
+                                .putExtra("NEWS_ID", adapterList.get(getAdapterPosition()).getId()));
+                    }
                 }
             });
         }

@@ -26,7 +26,7 @@
 
     <ScrollView
         android:id="@+id/scrollMain"
-        android:visibility="gone"
+        android:visibility="visible"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/toolbarHome">
@@ -78,11 +78,19 @@
                     android:layout_height="match_parent"
                     android:gravity="center"
                     android:text="Recent News"
+                    android:visibility="gone"
                     android:paddingLeft="4dp"
                     android:textStyle="bold"/>
 
-                <TextView
+                <com.hanks.htextview.typer.TyperTextView
                     android:id="@+id/txtTicker"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="4dp"
+                    android:text="this is init sentence."/>
+
+                <TextView
+                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Hello Saim kamon acho"

@@ -103,6 +103,7 @@ public class NewsComment extends AppCompatActivity {
 
 
     public void RetriveComment(final String post_id){
+        commentArrayList.clear();
         progressDialog.show();
         StringRequest stringRequest = new StringRequest(Request.Method.POST, ApiURL.NEWS_COMMENTS_RETRIVE,
                 new Response.Listener<String>() {
@@ -170,16 +171,7 @@ public class NewsComment extends AppCompatActivity {
                                 String message = jsonObject.getString("message");
                                 Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
 
-                                DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-                                Calendar cal = Calendar.getInstance();
-                                String date = dateFormat.format(cal);
-
-                                ModelNewsComment modelNewsComment = new ModelNewsComment(new SharedPrefDatabase(getApplicationContext()).RetriveUserName(),
-                                        new SharedPrefDatabase(getApplicationContext()).RetriveUserImage(),
-                                        comment,
-                                        date);
-                                commentArrayList.add(modelNewsComment);
-                                commentsAdapter.notifyDataSetChanged();
+                                finish();
                             }else {
                                 String message = jsonObject.getString("message");
                                 Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
