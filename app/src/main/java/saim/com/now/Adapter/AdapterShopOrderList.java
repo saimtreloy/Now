@@ -55,15 +55,18 @@ public class AdapterShopOrderList extends RecyclerView.Adapter<AdapterShopOrderL
 
         holder.listOrderName.setText(adapterList.get(position).getOrder_user_name());
         holder.listOrderMobile.setText(adapterList.get(position).getOrder_user_phone());
-        holder.listOrderStatus.setText(adapterList.get(position).getOrder_status());
-        if (adapterList.get(position).getOrder_status().equals("Panding")){
-            holder.listOrderStatus.setTextColor(Color.parseColor("#ff0000"));
+        holder.listOrderStatus.setText("("+adapterList.get(position).getOrder_status() + ")");
+        holder.txtOrderID.setText(adapterList.get(position).getOrder_vendor_id() );
+        holder.listOrderTime.setText("("+adapterList.get(position).getOrder_time() + ")");
+        holder.listOrderLocation.setText("("+adapterList.get(position).getOrder_user_location().trim() + ")");
+        if (adapterList.get(position).getOrder_status().equals("Pending")){
+            holder.listOrderStatus.setTextColor(Color.CYAN);
         } else if (adapterList.get(position).getOrder_status().equals("Success")) {
-            holder.listOrderStatus.setTextColor(Color.parseColor("#00ff00"));
+            holder.listOrderStatus.setTextColor(Color.GREEN);
         } else if (adapterList.get(position).getOrder_status().equals("Proccessing")) {
-            holder.listOrderStatus.setTextColor(Color.parseColor("#ff00ff"));
+            holder.listOrderStatus.setTextColor(Color.YELLOW);
         } else if (adapterList.get(position).getOrder_status().equals("Cancel")) {
-            holder.listOrderStatus.setTextColor(Color.parseColor("#ff0000"));
+            holder.listOrderStatus.setTextColor(Color.RED);
         }
 
     }
@@ -77,7 +80,7 @@ public class AdapterShopOrderList extends RecyclerView.Adapter<AdapterShopOrderL
 
         int itemQ = 0;
 
-        TextView listOrderName, listOrderMobile, listOrderStatus;
+        TextView listOrderName, listOrderMobile, listOrderStatus, txtOrderID, listOrderTime, listOrderLocation;
 
         public ShopOrderListViewHolder(View itemView) {
             super(itemView);
@@ -85,6 +88,9 @@ public class AdapterShopOrderList extends RecyclerView.Adapter<AdapterShopOrderL
             listOrderName = (TextView) itemView.findViewById(R.id.listOrderName);
             listOrderMobile = (TextView) itemView.findViewById(R.id.listOrderMobile);
             listOrderStatus = (TextView) itemView.findViewById(R.id.listOrderStatus);
+            txtOrderID = (TextView) itemView.findViewById(R.id.txtOrderID);
+            listOrderTime = (TextView) itemView.findViewById(R.id.listOrderTime);
+            listOrderLocation = (TextView) itemView.findViewById(R.id.listOrderLocation);
 
 
             itemView.setOnClickListener(this);

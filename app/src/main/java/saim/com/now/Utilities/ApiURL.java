@@ -23,7 +23,7 @@ public class ApiURL {
     public static String Service_Shop_Order_Complete = link_header + "service_shop_order_complete.php";     //service_shop_search,
     public static String Service_Shop_Offer = link_header + "service_vendor_offer.php";     //service_shop_search,
     public static String Service_Item_Detail = link_header + "item_details.php";     //item_id, vendor_id
-
+    public static String SERVICE_VENDORI_DETAIL = link_header + "service_shop_vendor_detail.php";     //service_shop_vendor_id
 
 
     //==========================NOW NEWS==========================//

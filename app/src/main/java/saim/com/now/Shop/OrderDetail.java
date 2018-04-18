@@ -3,8 +3,10 @@ package saim.com.now.Shop;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -39,9 +41,11 @@ public class OrderDetail extends AppCompatActivity {
     ProgressBar progressBar;
     ProgressDialog progressDialog;
 
-    TextView txtOrderDetail, txtOrderName, txtOrderPhone, txtOrderLocation, txtOrderTime, txtOrderStatus;
+    TextView txtOrderDetail, txtOrderName, txtOrderPhone, txtOrderLocation, txtOrderTime, txtOrderStatus, txtVendorName, txtVendorMobile, txtVendorLocation;
     Button btnProcessOrder;
-    ImageView imgOrderView;
+    ImageView imgOrderView, imgVendor;
+
+    CardView layout3;
 
     String id, order_user_id, order_user_name, order_user_phone, order_vendor_id, order_user_location, order_time,
             order_detail, order_total_price, order_service_chrge, order_type, order_status, order_user_message, order_vendor_message, order_bill_number;
@@ -70,8 +74,15 @@ public class OrderDetail extends AppCompatActivity {
         txtOrderTime = (TextView) findViewById(R.id.txtOrderTime);
         txtOrderStatus = (TextView) findViewById(R.id.txtOrderStatus);
 
+        txtVendorName = (TextView) findViewById(R.id.txtVendorName);
+        txtVendorMobile = (TextView) findViewById(R.id.txtVendorMobile);
+        txtVendorLocation = (TextView) findViewById(R.id.txtVendorLocation);
+        imgVendor = (ImageView) findViewById(R.id.imgVendor);
+
         btnProcessOrder = (Button) findViewById(R.id.btnProcessOrder);
         imgOrderView = (ImageView) findViewById(R.id.imgOrderView);
+
+        layout3 = (CardView) findViewById(R.id.layout3);
 
 
         id = getIntent().getExtras().getString("id");
@@ -91,7 +102,6 @@ public class OrderDetail extends AppCompatActivity {
         order_bill_number = getIntent().getExtras().getString("order_bill_number");
 
         PopulateView();
-        Log.d("SAIM SAIM", "http://www.globalearnmoney.com/now_api/" + order_detail);
     }
 
 
@@ -109,10 +119,10 @@ public class OrderDetail extends AppCompatActivity {
             imgOrderView.setVisibility(View.GONE);
             txtOrderDetail.setText(order_detail);
         }
-        txtOrderName.setText("Name : " + order_user_name);
-        txtOrderPhone.setText("Phone : " +order_user_phone);
-        txtOrderLocation.setText("Location : " +order_user_location);
-        txtOrderTime.setText("Time : " +order_time);
+        txtOrderName.setText(order_user_name);
+        txtOrderPhone.setText(order_user_phone);
+        txtOrderLocation.setText(order_user_location.trim());
+        txtOrderTime.setText("Order Time : " +order_time);
         txtOrderStatus.setText("Status : " +order_status);
 
         if (order_status.equals("Pending") || order_status.equals("Success") || order_status.equals("Cancel")) {
@@ -121,12 +131,18 @@ public class OrderDetail extends AppCompatActivity {
             btnProcessOrder.setVisibility(View.VISIBLE);
         }
 
-
-
         btnProcessOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showPlaceOrderDialog(id);
+            }
+        });
+
+
+        new Handler().post(new Runnable() {
+            @Override
+            public void run() {
+                VendorDetail(order_vendor_id);
             }
         });
 
@@ -170,7 +186,7 @@ public class OrderDetail extends AppCompatActivity {
     }
 
 
-    public void PlaceOrderFinal(final String id, final String order_vendor_message){
+    public void PlaceOrderFinal(final String id, final String order_user_message){
 
         progressDialog.show();
         StringRequest stringRequest = new StringRequest(Request.Method.POST, ApiURL.Service_Shop_Order_Complete,
@@ -214,5 +230,63 @@ public class OrderDetail extends AppCompatActivity {
         };
         stringRequest.setShouldCache(false);
         MySingleton.getInstance(getApplicationContext()).addToRequestQueue(stringRequest);
+    }
+
+
+    public void VendorDetail(final String vendori_id){
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, ApiURL.SERVICE_VENDORI_DETAIL,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            JSONArray jsonArray = new JSONArray(response);
+                            JSONObject jsonObject = jsonArray.getJSONObject(0);
+                            String code = jsonObject.getString("code");
+                            if (code.equals("success")){
+                                JSONArray jsonArrayResult = jsonObject.getJSONArray("result");
+                                JSONObject jsonObjectResult = jsonArrayResult.getJSONObject(0);
+
+                                String v_name = jsonObjectResult.getString("service_shop_vendor_name");
+                                String v_icon = jsonObjectResult.getString("service_shop_vendor_icon");
+                                String v_location = jsonObjectResult.getString("service_shop_vendor_location");
+                                String v_mobile = jsonObjectResult.getString("service_shop_vendor_mobile");
+
+                                PopulateVendor(v_name, v_icon, v_location, v_mobile);
+
+                            }else {
+                                String message = jsonObject.getString("message");
+                                Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+                            }
+                        }catch (Exception e){
+                            Log.d("HDHD 1", e.toString() + "\n" + response);
+                        }
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String,String> params = new HashMap<String, String>();
+                params.put("service_shop_vendor_id", vendori_id);
+
+                return params;
+            }
+        };
+        stringRequest.setShouldCache(false);
+        MySingleton.getInstance(getApplicationContext()).addToRequestQueue(stringRequest);
+    }
+
+    private void PopulateVendor(String v_name, String v_icon, String v_location, String v_mobile) {
+
+        layout3.setVisibility(View.VISIBLE);
+        Picasso.with(getApplicationContext()).load(v_icon).placeholder(R.drawable.ic_logo).error(R.drawable.ic_logo).into(imgVendor);
+        txtVendorName.setText(v_name);
+        txtVendorLocation.setText(v_location);
+        txtVendorMobile.setText(v_mobile);
+
     }
 }

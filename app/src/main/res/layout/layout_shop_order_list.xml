@@ -2,10 +2,11 @@
 <android.support.v7.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="80dp"
+    android:layout_height="wrap_content"
     android:theme="@style/AppThemeNav"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:elevation="6dp"
+    app:elevation="6dp"
+    app:cardCornerRadius="12dp"
     android:layout_marginLeft="8dp"
     android:layout_marginRight="8dp"
     android:layout_marginTop="8dp">
@@ -15,84 +16,111 @@
         android:layout_height="match_parent"
         android:padding="8dp"
         android:gravity="center"
-        android:orientation="horizontal">
-
-        <ImageView
-            android:id="@+id/listImageView"
-            android:layout_width="60dp"
-            android:layout_height="match_parent"
-            android:layout_centerHorizontal="true"
-            android:scaleType="fitCenter"
-            android:src="@drawable/ic_shopping_cart"/>
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:orientation="vertical">
+            android:orientation="horizontal">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+            <android.support.v7.widget.CardView
+                android:layout_width="26dp"
+                android:layout_height="26dp"
+                app:cardCornerRadius="13dp"
+                android:layout_margin="4dp"
+                app:cardBackgroundColor="#efefef">
 
-                <TextView
-                    android:id="@+id/listOrderName"
-                    android:textStyle="bold"
-                    android:layout_weight="1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:text="Miniket Rice Premium"
-                    android:layout_below="@id/listImageView"/>
+                <ImageView
+                    android:id="@+id/listImageView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="6dp"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/ic_shopping"/>
 
-            </LinearLayout>
+            </android.support.v7.widget.CardView>
 
+            <TextView
+                android:id="@+id/txtOrderID"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="Order id - 00001234"
+                android:textSize="12sp"
+                android:layout_marginLeft="4dp"/>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical">
-
-                <LinearLayout
-                    android:layout_weight="1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_weight="1"
-                        android:id="@+id/listOrderMobile"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginRight="6dp"
-                        android:text="+8801711415554"
-                        android:textSize="12sp"
-                        android:layout_below="@id/listImageView"/>
-
-
-                </LinearLayout>
-
-
-                <TextView
-                    android:id="@+id/listOrderStatus"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:text="Pending"
-                    android:layout_marginRight="4dp"
-                    android:layout_marginLeft="4dp"
-                    android:textStyle="bold"
-                    android:textColor="@android:color/holo_red_light"
-                    android:textSize="12sp"
-                    android:layout_below="@id/listImageView"/>
-
-
-            </LinearLayout>
+            <TextView
+                android:id="@+id/listOrderStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="(Order Process)"
+                android:textSize="12sp"
+                android:textStyle="italic"
+                android:layout_marginLeft="4dp"/>
 
         </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="2dp"
+            android:background="@color/colorAccent"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/listOrderName"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="Order id - 00001234"
+                android:textSize="12sp"
+                />
+
+            <TextView
+                android:id="@+id/listOrderTime"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="(Order Process)"
+                android:textStyle="italic"
+                android:textSize="12sp"
+                android:layout_marginLeft="4dp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/listOrderMobile"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="Order id - 00001234"
+                android:textStyle="italic"
+                android:textSize="12sp"
+                />
+
+            <TextView
+                android:id="@+id/listOrderLocation"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="(Order Process)"
+                android:textStyle="italic"
+                android:textSize="12sp"
+                android:layout_marginLeft="4dp"/>
+
+        </LinearLayout>
+
 
     </LinearLayout>
 

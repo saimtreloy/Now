@@ -32,23 +32,50 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@android:color/white">
-
+            
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/layout1"
+                android:layout_height="match_parent"
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/txtOrderDetail"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="Order Detail"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginRight="8dp"
+                    android:textStyle="italic"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="@color/colorAccent"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"/>
+                
+                <android.support.v7.widget.CardView
+                    android:id="@+id/layout1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:visibility="gone"
-                    android:paddingLeft="16dp"
-                    android:paddingTop="16dp"
-                    android:paddingRight="16dp"
-                    android:background="#FCFCFC"
-                    android:text="Rup Chada Soyabin Oil                   99 tk
+                    android:layout_alignParentTop="true"
+                    android:layout_margin="6dp"
+                    app:cardElevation="6dp"
+                    app:cardCornerRadius="6dp" >
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_margin="8dp">
+
+                        <TextView
+                            android:id="@+id/txtOrderDetail"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:visibility="visible"
+                            android:textSize="12sp"
+                            android:text="
+Rup Chada Soyabin Oil                   99 tk
 Saim Soyabin Oil                        190 tk
 --------------------------------------------------
 Subtotal Price                          289 tk
@@ -59,59 +86,207 @@ Delivery Cost                           29 tk
 --------------------------------------------------
 Main Total Price                        318 tk"/>
 
-                <ImageView
-                    android:id="@+id/imgOrderView"
-                    android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    android:background="#FCFCFC"
-                    android:src="@drawable/ic_background"/>
+                        <ImageView
+                            android:id="@+id/imgOrderView"
+                            android:layout_width="match_parent"
+                            android:layout_height="200dp"
+                            android:background="#FCFCFC"
+                            android:visibility="gone"
+                            android:src="@drawable/ic_background"/>
 
+                    </LinearLayout>
+
+                </android.support.v7.widget.CardView>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="Customer Detail"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:textStyle="italic"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="@color/colorAccent"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"/>
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/layout2"
+                    android:layout_below="@id/layout1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:cardElevation="4dp"
+                    app:cardCornerRadius="4dp"
+                    android:layout_margin="8dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="8dp">
+
+                        <TextView
+                            android:id="@+id/txtOrderName"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textSize="12sp"
+                            android:textStyle="bold"
+                            android:textColor="@android:color/black"
+                            android:text="Md. Mobinur Rahman Saim"/>
+                        <TextView
+                            android:id="@+id/txtOrderPhone"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textSize="12sp"
+                            android:textStyle="italic"
+                            android:text="+8801711415554"/>
+                        <TextView
+                            android:id="@+id/txtOrderLocation"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textSize="12sp"
+                            android:text="827/6, 5th Floor, West Kazipara, Mirpur"/>
+                        <TextView
+                            android:id="@+id/txtOrderTime"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textSize="12sp"
+                            android:text="Order Time : 2018-03-08 20:23:21"/>
+                        <TextView
+                            android:id="@+id/txtOrderStatus"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textSize="12sp"
+                            android:text="Status : Pending"/>
+
+
+                        <Button
+                            android:id="@+id/btnProcessOrder"
+                            style="@style/Widget.AppCompat.Button.Colored"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textSize="12sp"
+                            android:layout_alignParentBottom="true"
+                            android:text="Process Order" />
+
+                    </LinearLayout>
+
+                </android.support.v7.widget.CardView>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="Vendor Detail"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:textStyle="italic"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="@color/colorAccent"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"/>
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/layout3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    app:cardCornerRadius="4dp"
+                    app:cardElevation="4dp"
+                    android:visibility="gone"
+                    android:layout_below="@id/layout2">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_margin="8dp">
+
+                        <ImageView
+                            android:id="@+id/imgVendor"
+                            android:layout_width="100dp"
+                            android:layout_height="60dp"
+                            android:text="Shopno"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/ic_logo"/>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:orientation="vertical"
+                            android:layout_marginLeft="4dp">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <ImageView
+                                    android:layout_width="20dp"
+                                    android:layout_height="20dp"
+                                    android:src="@android:drawable/ic_menu_mylocation"/>
+
+                                <TextView
+                                    android:id="@+id/txtVendorName"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:textStyle="bold"
+                                    android:textColor="@android:color/black"
+                                    android:textSize="12sp"
+                                    android:gravity="center_vertical"
+                                    android:text="Shopno"/>
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <ImageView
+                                    android:layout_width="20dp"
+                                    android:layout_height="20dp"
+                                    android:src="@android:drawable/ic_menu_call"/>
+
+                                <TextView
+                                    android:id="@+id/txtVendorMobile"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:textStyle="italic"
+                                    android:textSize="12sp"
+                                    android:gravity="center_vertical"
+                                    android:text="+8801711415554"/>
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <ImageView
+                                    android:layout_width="20dp"
+                                    android:layout_height="20dp"
+                                    android:src="@android:drawable/ic_menu_myplaces"/>
+
+                                <TextView
+                                    android:id="@+id/txtVendorLocation"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:textSize="12sp"
+                                    android:gravity="center_vertical"
+                                    android:text="Location"/>
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </android.support.v7.widget.CardView>
+                
             </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/layout1"
-                android:orientation="vertical"
-                android:padding="16dp">
-
-                <TextView
-                    android:id="@+id/txtOrderName"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Name : Md. Mobinur Rahman Saim"/>
-                <TextView
-                    android:id="@+id/txtOrderPhone"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Mobile : +8801711415554"/>
-                <TextView
-                    android:id="@+id/txtOrderLocation"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Location : 827/6, 5th Floor, West Kazipara, Mirpur"/>
-                <TextView
-                    android:id="@+id/txtOrderTime"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Order Time : 2018-03-08 20:23:21"/>
-                <TextView
-                    android:id="@+id/txtOrderStatus"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Status : Pending"/>
-
-
-                <Button
-                    android:id="@+id/btnProcessOrder"
-                    style="@style/Widget.AppCompat.Button.Colored"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:text="Process Order" />
-
-            </LinearLayout>
-
 
 
             <ProgressBar
