@@ -109,12 +109,12 @@
                 android:paddingTop="4dp"
                 android:paddingLeft="12dp"
                 android:paddingRight="12dp"/>
+
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recyclerViewNewsRecentPost"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_above="@id/layoutPlaceOrder"
-                android:layout_gravity="center_horizontal">
+                android:layout_above="@id/layoutPlaceOrder">
 
             </android.support.v7.widget.RecyclerView>
 

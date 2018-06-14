@@ -6,7 +6,7 @@ package saim.com.now.Utilities;
 
 public class ApiURL {
 
-    public static String link_header = "http://www.globalearnmoney.com/now_api/";
+    public static String link_header = "http://demo.resourcespoints.com/now_api/";
 
     public static String Location = link_header + "location.php";                 //user_email, user_pass
     public static String Login = link_header + "login.php";                 //user_email, user_pass
@@ -27,11 +27,11 @@ public class ApiURL {
 
 
     //==========================NOW NEWS==========================//
-    public static String link_header_news = "http://globalearnmoney.com/now_news/";
+    public static String link_header_news = "http://demo.resourcespoints.com/now_news/";
 
-    public static String NEWS_POST = link_header_news + "link_post.php";
     public static String NEWS_MENU = link_header_news + "link_menu.php";
     public static String NEWS_TICKER = link_header_news + "link_ticker.php";
+    public static String NEWS_POST = link_header_news + "link_post.php";
     public static String NEWS_LIKE = link_header_news + "link_post_like.php";
     public static String NEWS_COMMENTS = link_header_news + "link_post_comment.php";
     public static String NEWS_COMMENTS_RETRIVE = link_header_news + "link_retrive_comment.php";

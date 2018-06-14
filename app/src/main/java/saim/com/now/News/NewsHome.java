@@ -1,6 +1,7 @@
 package saim.com.now.News;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -114,7 +115,6 @@ public class NewsHome extends AppCompatActivity {
     static Runnable updateRecentText = new Runnable() {
         @Override
         public void run() {
-            Log.d("SAIM TICKER LINK", start + "  " + tickerList.size());
             if (start > tickerList.size()-1){
                 start = 0;
             }
@@ -126,6 +126,9 @@ public class NewsHome extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     Log.d("SAIM TICKER LINK", txtTicker.getTag().toString());
+                    v.getContext().startActivity(new Intent(v.getContext().getApplicationContext(), NewsBrowser.class)
+                            .putExtra("MAIN_URL", txtTicker.getTag().toString()).putExtra("TITLE", txtTicker.getText().toString()));
+
                 }
             });
 
@@ -273,7 +276,6 @@ public class NewsHome extends AppCompatActivity {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        Log.d("SAM RESPOSNE ", response);
                         progressDialog.dismiss();
                         scrollMain.setVisibility(View.VISIBLE);
                         try {

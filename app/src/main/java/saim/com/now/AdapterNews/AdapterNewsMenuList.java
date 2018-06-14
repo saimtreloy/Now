@@ -17,6 +17,7 @@ import java.util.ArrayList;
 
 import saim.com.now.Model.ModelServiceList;
 import saim.com.now.ModelNews.ModelMenu;
+import saim.com.now.News.NewsBrowser;
 import saim.com.now.News.NewsHome;
 import saim.com.now.R;
 import saim.com.now.Shop.ShopVendor;
@@ -79,6 +80,8 @@ public class AdapterNewsMenuList extends RecyclerView.Adapter<AdapterNewsMenuLis
 
         @Override
         public void onClick(View v) {
+            v.getContext().startActivity(new Intent(v.getContext().getApplicationContext(), NewsBrowser.class)
+                    .putExtra("MAIN_URL", adapterList.get(getAdapterPosition()).getMenu_link()).putExtra("TITLE", adapterList.get(getAdapterPosition()).getMenu()));
 
         }
     }
